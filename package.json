@@ -1,15 +1,20 @@
 {
-  "name": "code",
+  "name": "products-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "REST API for product management",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "api",
+    "products",
+    "express",
+    "nodejs"
+  ],
+  "author": "Emmanuel Cruz",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
