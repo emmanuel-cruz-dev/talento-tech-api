@@ -1,11 +1,17 @@
-// TODO add async/await
-
-const getAll = () => {
+const getAll = async () => {
   return null;
 };
 
-const createProduct = (product) => {
+const getProductById = async (productId) => {
   return null;
 };
 
-export default { getAll, createProduct };
+const createProduct = async (product) => {
+  return null;
+};
+
+const deleteProduct = async (productId) => {
+  return null;
+};
+
+export default { getAll, getProductById, createProduct, deleteProduct };
