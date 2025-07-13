@@ -3,26 +3,43 @@ import productService from "../services/product.service.js";
 const getAllProducts = async (req, res) => {
   try {
     const products = await productService.getAll();
-    res.json({ status: "OK", data: products });
+    res.json({ status: "OK", payload: products });
   } catch (error) {
     res.status(error?.status || 500).json({
       status: "FAILED",
-      data: { error: error?.message || error },
+      payload: { error: error?.message || error },
     });
   }
 };
 
 const getProductById = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).send({
+      status: "FAILED",
+      payload: {
+        error: "Se requiere el ID del producto",
+      },
+    });
+  }
+
   try {
-    const product = await productService.getProductById(req.params.id);
+    const product = await productService.getProductById(id);
 
     if (!product) {
-      return res.status(404).json({ error: "Producto no encontrado" });
+      return res.status(404).send({
+        status: "FAILED",
+        payload: { error: `Producto con ID ${id} no encontrado` },
+      });
     }
 
-    res.json(product);
+    res.send({ status: "OK", payload: product });
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener producto" });
+    res.status(error?.status || 500).json({
+      status: "FAILED",
+      payload: { error: error?.message || "Error al obtener el producto" },
+    });
   }
 };
 
@@ -36,11 +53,30 @@ const createProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    res.status(400).send({
+      status: "FAILED",
+      payload: { error: "Se requiere el ID del producto" },
+    });
+  }
+
   try {
-    await productService.deleteProduct(req.params.id);
-    res.status(204).send();
+    const result = await productService.deleteProduct(id);
+
+    res.status(200).send({
+      status: "OK",
+      payload: result.data,
+      message: result.message,
+    });
   } catch (error) {
-    res.status(500).json({ error: "Error al eliminar producto" });
+    res
+      .status(error?.status || 500)
+      .send({
+        status: "FAILED",
+        data: { error: error?.message || "Error al eliminar el producto" },
+      });
   }
 };
 
