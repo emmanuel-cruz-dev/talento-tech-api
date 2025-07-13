@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import bodyParser from "body-parser";
 import dotenv from "dotenv";
 // import router from "./routes/productRoutes.js";
 
@@ -13,8 +14,8 @@ app.use(cors());
 // app.use("/api/products", router);
 
 // JSON Parsing
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send(`
