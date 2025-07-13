@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-// import router from "./routes/productRoutes.js";
+import router from "./routes/product.routes.js";
 
 dotenv.config();
 
@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 3000;
 
 // Security Middlewares
 app.use(cors());
-// app.use("/api/products", router);
 
 // JSON Parsing
 app.use(bodyParser.json());
@@ -23,6 +22,9 @@ app.get("/", (req, res) => {
     <p>Visita la API de productos en este <a href="http://localhost:3000/api/products/">link</a>.</p>
     `);
 });
+
+// Routes
+app.use("/api/products", router);
 
 // Handling routes not found (404)
 app.use((req, res, next) => {
