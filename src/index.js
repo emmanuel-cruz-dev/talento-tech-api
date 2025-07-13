@@ -27,9 +27,10 @@ app.get("/", (req, res) => {
 app.use("/api/products", router);
 
 // Handling routes not found (404)
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).json({
     error: "Ruta no encontrada",
+    message: `No se encontró la ruta '${req.originalUrl}'`,
   });
 });
 
@@ -38,6 +39,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
     error: "Ocurrió un error en el servidor",
+    message: err.message || "Algo salió mal",
   });
 });
 
