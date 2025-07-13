@@ -1,6 +1,6 @@
 import productService from "../services/product.service.js";
 
-export const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res) => {
   try {
     const products = await productService.getAll();
     res.json({ status: "OK", data: products });
@@ -12,7 +12,7 @@ export const getAllProducts = async (req, res) => {
   }
 };
 
-export const getProductById = async (req, res) => {
+const getProductById = async (req, res) => {
   try {
     const product = await productService.getProductById(req.params.id);
 
@@ -26,7 +26,7 @@ export const getProductById = async (req, res) => {
   }
 };
 
-export const createProduct = async (req, res) => {
+const createProduct = async (req, res) => {
   try {
     const newProduct = await productService.createProduct(req.body);
     res.status(201).json(newProduct);
@@ -35,7 +35,7 @@ export const createProduct = async (req, res) => {
   }
 };
 
-export const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res) => {
   try {
     await productService.deleteProduct(req.params.id);
     res.status(204).send();
@@ -43,3 +43,5 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ error: "Error al eliminar producto" });
   }
 };
+
+export default { getAllProducts, getProductById, createProduct, deleteProduct };
