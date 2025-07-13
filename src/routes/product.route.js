@@ -3,7 +3,7 @@ import express from "express";
 const router = express.Router();
 
 router
-  .get("/", getProducts)
+  .get("/", getAllProducts)
   .get("/:productId", getProductById)
   .post("/", createProduct)
   .delete("/:id", deleteProduct);
