@@ -28,10 +28,9 @@ const getProductById = async (req, res) => {
     const product = await productService.getProductById(id);
 
     if (!product) {
-      return res.status(404).send({
-        status: "FAILED",
-        payload: { error: `Producto con ID ${id} no encontrado` },
-      });
+      return res
+        .status(404)
+        .send({ error: `Producto con ID '${id}' no encontrado` });
     }
 
     res.send({ status: "OK", payload: product });
