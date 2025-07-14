@@ -3,8 +3,6 @@ import { users } from "../models/user.model.js";
 
 const validateUser = async (username, password) => {
   try {
-    console.log(`Intentando login para usuario: ${username}`);
-
     const user = users.find((u) => u.username === username);
 
     if (!user) {
@@ -19,7 +17,6 @@ const validateUser = async (username, password) => {
       return false;
     }
 
-    console.log(`Login exitoso para usuario: ${username}`);
     return true;
   } catch (error) {
     console.error("Error validando usuario:", error);
@@ -27,4 +24,4 @@ const validateUser = async (username, password) => {
   }
 };
 
-export default { validateUser };
+export default validateUser;
