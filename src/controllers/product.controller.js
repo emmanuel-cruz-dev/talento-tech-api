@@ -45,8 +45,20 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const newProduct = await productService.createProduct(req.body);
-    res.status(201).json(newProduct);
+    const { nombre, precio, categoria, disponible } = req.body;
+
+    // TODO Validate data
+    const newProduct = {
+      nombre,
+      precio: +precio,
+      categoria,
+      disponible: disponible || false,
+    };
+
+    await productService.createProduct(newProduct);
+    res
+      .status(201)
+      .json({ message: "Lista de productos", payload: newProduct });
   } catch (error) {
     res.status(500).json({ error: "Error al crear producto" });
   }
