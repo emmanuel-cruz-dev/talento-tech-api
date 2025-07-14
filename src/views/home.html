@@ -1,0 +1,45 @@
+<h1>🚀 API de Productos - Talento Tech</h1>
+<p><strong>Proyecto Final - Backend Node.js</strong></p>
+<p>👩‍💻 Autor: Emmanuel Cruz</p>
+
+<h2>🔐 Autenticación requerida</h2>
+<p>Esta API requiere autenticación JWT para acceder a los endpoints.</p>
+
+<h3>📋 Endpoints disponibles:</h3>
+<ul>
+  <li><strong>POST</strong> /auth/login - Iniciar sesión</li>
+  <li>
+    <strong>GET</strong> /api/products - Obtener productos (requiere token)
+  </li>
+  <li>
+    <strong>GET</strong> /api/products/:id - Obtener producto por ID (requiere
+    token)
+  </li>
+  <li>
+    <strong>POST</strong> /api/products/create - Crear producto (requiere token)
+  </li>
+  <li>
+    <strong>DELETE</strong> /api/products/:id - Eliminar producto (requiere
+    token)
+  </li>
+</ul>
+
+<h3>👤 Usuarios de prueba:</h3>
+<ul>
+  <li>Username: <code>admin</code> | Password: <code>password123</code></li>
+  <li>Username: <code>user1</code> | Password: <code>password123</code></li>
+</ul>
+
+<h3>🛠 Cómo probar:</h3>
+<p>1. Usa Postman o curl para hacer login en <code>/auth/login</code></p>
+<p>2. Copia el token recibido</p>
+<p>3. Agrégalo como Header: <code>Authorization: Bearer tu_token</code></p>
+
+<p>
+  📚
+  <a
+    href="https://github.com/emmanuel-cruz-dev/talento-tech-api"
+    target="_blank"
+    >Ver documentación completa</a
+  >
+</p>
