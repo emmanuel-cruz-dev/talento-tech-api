@@ -5,7 +5,7 @@ GET http://localhost:3000/
 GET http://localhost:3000/api/products
 
 ### Obtener producto por id
-GET http://localhost:3000/api/products/B6ZTyKArLYhI1jUcmV5A
+GET http://localhost:3000/api/products/ZFRT2cHk4EsSzRaG02j8
 
 ### Crear nuevo producto
 POST http://localhost:3000/api/products/create
