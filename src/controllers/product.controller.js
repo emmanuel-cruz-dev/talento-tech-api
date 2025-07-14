@@ -3,11 +3,11 @@ import productService from "../services/product.service.js";
 const getAllProducts = async (req, res) => {
   try {
     const products = await productService.getAll();
-    res.json({ status: "OK", payload: products });
+    res.status(200).json({ message: "Lista de productos", payload: products });
   } catch (error) {
     res.status(error?.status || 500).json({
-      status: "FAILED",
-      payload: { error: error?.message || error },
+      message: "Error al obtener los productos",
+      payload: { error: error?.message || "Error interno del servidor" },
     });
   }
 };
@@ -71,12 +71,10 @@ const deleteProduct = async (req, res) => {
       message: result.message,
     });
   } catch (error) {
-    res
-      .status(error?.status || 500)
-      .send({
-        status: "FAILED",
-        data: { error: error?.message || "Error al eliminar el producto" },
-      });
+    res.status(error?.status || 500).send({
+      status: "FAILED",
+      data: { error: error?.message || "Error al eliminar el producto" },
+    });
   }
 };
 
