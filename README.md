@@ -1,0 +1,257 @@
+# 🚀 API REST de Productos | Talento Tech
+
+**Proyecto Final - Curso Node.js TALENTO TECH**
+
+📅 Julio 2025
+👩‍💻 Autor: Emmanuel Cruz
+✍️ Profesor: Daniel Riverol
+
+## 📝 **Descripción del Proyecto**
+
+API RESTful diseñada para administrar un catálogo de productos.
+
+🔐 Protegida mediante autenticación por token (JWT)
+☁️ Conectada a una base de datos NoSQL en **Firebase Firestore**
+
+Permite realizar operaciones CRUD:
+
+- **GET** productos
+- **POST** nuevo producto
+- **DELETE** por ID
+- **GET** por ID
+
+Además, gestiona errores 404, 401/403 y 500 según corresponda.
+
+📌 La arquitectura del proyecto está organizada en capas:
+
+- `routes/`: define las rutas de productos y login
+- `controllers/`: recibe las peticiones HTTP
+- `services/`: contiene la lógica de negocio
+- `models/`: accede a la base de datos en Firebase
+- `middlewares/`: validación de tokens JWT
+- `config/`: configuración de Firebase y variables de entorno
+
+## 🔗 **API desplegada**
+
+https://producto-api.vercel.app _(en proceso de deployment)_
+
+## 🧰 **Tecnologías Utilizadas**
+
+- ⚙️ **Node.js + Express**
+- 🔐 **JWT** (JSON Web Tokens)
+- 🔒 **bcrypt** (hash de contraseñas)
+- ☁️ **Firebase Firestore**
+- 🌐 **CORS**
+- 🧪 **Postman** (testing)
+- ⚙️ **dotenv**
+- 📦 **body-parser**
+- 📁 **Git + GitHub**
+- 🚀 **Vercel** (deploy)
+
+## 🚀 **Instalación y Configuración**
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/producto-api.git
+cd producto-api
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 3. Configurar variables de entorno
+
+Crear archivo `.env` en la raíz del proyecto:
+
+```env
+PORT=3000
+JWT_SECRET=tu_clave_secreta_super_larga_y_aleatoria_123456789
+
+# Firebase Configuration
+FIREBASE_PROJECT_ID=tu-proyecto-id
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\ntu-clave-privada\n-----END PRIVATE KEY-----\n"
+FIREBASE_CLIENT_EMAIL=tu-email@proyecto.iam.gserviceaccount.com
+```
+
+### 4. Ejecutar el servidor
+
+```bash
+npm start
+# o para desarrollo:
+npm run dev
+```
+
+Servidor corriendo en: `http://localhost:3000`
+
+## 🔐 **Autenticación**
+
+### Endpoint de Login
+
+**POST** `/auth/login`
+
+### Usuarios de prueba disponibles:
+
+| Username   | Password      | Role    |
+| ---------- | ------------- | ------- |
+| `admin`    | `password123` | admin   |
+| `user1`    | `password123` | user    |
+| `profesor` | `password123` | teacher |
+
+### Ejemplo de login exitoso:
+
+```bash
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "password123"}'
+```
+
+**Respuesta:**
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzIxMjM0NTY3LCJleHAiOjE3MjEyMzgxNjd9.abc123..."
+}
+```
+
+### Ejemplo de login fallido:
+
+```bash
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "wrong"}'
+```
+
+**Respuesta:**
+
+```json
+{
+  "error": "Credenciales inválidas"
+}
+```
+
+## 📋 **Endpoints de la API**
+
+### Autenticación
+
+| Método | Endpoint      | Descripción    | Requiere Auth |
+| ------ | ------------- | -------------- | ------------- |
+| POST   | `/auth/login` | Iniciar sesión | ❌            |
+
+### Productos
+
+| Método | Endpoint           | Descripción                 | Requiere Auth |
+| ------ | ------------------ | --------------------------- | ------------- |
+| GET    | `/products`        | Obtener todos los productos | ✅            |
+| GET    | `/products/:id`    | Obtener producto por ID     | ✅            |
+| POST   | `/products/create` | Crear nuevo producto        | ✅            |
+| DELETE | `/products/:id`    | Eliminar producto           | ✅            |
+
+## 🛠 **Cómo usar los endpoints protegidos**
+
+### 1. Obtener token de autenticación
+
+```bash
+POST /auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "password123"
+}
+```
+
+### 2. Usar el token en requests posteriores
+
+```bash
+curl -X GET http://localhost:3000/products \
+  -H "Authorization: Bearer tu_token_aqui"
+```
+
+### 3. Ejemplo con Postman
+
+1. **Headers** → Add `Authorization: Bearer tu_token_aqui`
+2. **Body** → raw → JSON para POST requests
+
+## 📊 **Ejemplos de uso**
+
+### Crear producto
+
+```bash
+curl -X POST http://localhost:3000/products/create \
+  -H "Authorization: Bearer tu_token_aqui" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Laptop Gaming",
+    "price": 1200,
+    "description": "Laptop para gaming de alta gama",
+    "category": "Electronics"
+  }'
+```
+
+### Obtener todos los productos
+
+```bash
+curl -X GET http://localhost:3000/products \
+  -H "Authorization: Bearer tu_token_aqui"
+```
+
+### Eliminar producto
+
+```bash
+curl -X DELETE http://localhost:3000/products/producto_id \
+  -H "Authorization: Bearer tu_token_aqui"
+```
+
+## ⚠️ **Códigos de Error**
+
+| Código | Descripción                                |
+| ------ | ------------------------------------------ |
+| 200    | OK - Solicitud exitosa                     |
+| 201    | Created - Recurso creado                   |
+| 400    | Bad Request - Datos inválidos              |
+| 401    | Unauthorized - Token requerido             |
+| 403    | Forbidden - Token inválido/expirado        |
+| 404    | Not Found - Recurso no encontrado          |
+| 500    | Internal Server Error - Error del servidor |
+
+## 🔒 **Seguridad**
+
+- ✅ Contraseñas hasheadas con bcrypt
+- ✅ Tokens JWT con expiración de 1 hora
+- ✅ Validación de entrada en todos los endpoints
+- ✅ Manejo de errores personalizado
+- ✅ Variables de entorno para datos sensibles
+
+## 📁 **Estructura del Proyecto**
+
+```
+producto-api/
+├── config/
+│   └── firebase.config.js
+├── controllers/
+│   ├── auth.controller.js
+│   └── product.controller.js
+├── middlewares/
+│   └── auth.middleware.js
+├── models/
+│   └── user.model.js
+├── routes/
+│   ├── auth.routes.js
+│   └── product.routes.js
+├── services/
+│   ├── auth.service.js
+│   └── product.service.js
+├── .env
+├── .gitignore
+├── package.json
+├── server.js
+└── README.md
+```
+
+## 📜 **Licencia**
+
+Proyecto educativo para **Talento Tech 2025**
