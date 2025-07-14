@@ -3,10 +3,16 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import { readFileSync } from "node:fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import productRoutes from "./routes/product.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 
 dotenv.config();
+
+// Get __dirname on ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,8 +25,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  const htmlContent = readFileSync("./src/views/home.html", "utf8");
-  res.send(htmlContent);
+  try {
+    const htmlPath = path.join(__dirname, "views", "home.html");
+    const htmlContent = readFileSync(htmlPath, "utf8");
+    res.send(htmlContent);
+  } catch (error) {
+    console.error("Error cargando HTML:", error);
+    res.status(500).json({ error: "Error cargando página" });
+  }
 });
 
 // Routes
