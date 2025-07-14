@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import router from "./routes/product.routes.js";
+import productRoutes from "./routes/product.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 
 dotenv.config();
 
@@ -24,7 +25,8 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/api/products", router);
+app.use("/api/products", productRoutes);
+app.use("/auth", authRoutes);
 
 // Handling routes not found (404)
 app.use((req, res) => {
