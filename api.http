@@ -12,8 +12,8 @@ POST http://localhost:3000/api/products/create
 Content-Type: application/json
 
 {
-  "nombre": "azúcar",
-  "precio": "2300",
+  "nombre": "arróz",
+  "precio": 2100,
   "categoria": "alimentos"
 }
 

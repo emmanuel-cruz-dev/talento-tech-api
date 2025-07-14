@@ -46,7 +46,13 @@ const createProduct = async (req, res) => {
   try {
     const { nombre, precio, categoria, disponible } = req.body;
 
-    // TODO Validate data
+    // Validate data
+    if (!nombre || !precio || !categoria) {
+      return res.status(400).json({
+        error: "Faltan campos requeridos: nombre, precio, categoria",
+      });
+    }
+
     const newProduct = {
       nombre,
       precio: +precio,
