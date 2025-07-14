@@ -5,17 +5,17 @@ GET http://localhost:3000/
 GET http://localhost:3000/api/products
 
 ### Obtener producto por id
-GET http://localhost:3000/api/products/1
+GET http://localhost:3000/api/products/B6ZTyKArLYhI1jUcmV5A
 
 ### Crear nuevo producto
-POST http://localhost:3000/api/products
+POST http://localhost:3000/api/products/create
 Content-Type: application/json
 
 {
-  "title": "Men T-Shirt",
-  "price": 0.1,
-  "category": "men's clothing"
+  "nombre": "fideos",
+  "precio": "1900",
+  "categoria": "alimentos"
 }
 
 ### Eliminar producto por id
-DELETE http://localhost:3000/api/products/2
+DELETE http://localhost:3000/api/products/WxaHcA6lVbxVQQ0gxmBA
