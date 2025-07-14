@@ -27,7 +27,12 @@ const getProductById = async (productId) => {
 };
 
 const createProduct = async (product) => {
-  return null;
+  try {
+    const newProduct = await addDoc(productCollection, product);
+    return newProduct;
+  } catch (error) {
+    throw new Error("Error", error.message);
+  }
 };
 
 const deleteProduct = async (productId) => {
