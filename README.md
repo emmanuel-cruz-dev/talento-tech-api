@@ -4,7 +4,6 @@
 
 📅 Julio 2025
 👩‍💻 Autor: Emmanuel Cruz
-✍️ Profesor: Daniel Riverol
 
 ## 📝 **Descripción del Proyecto**
 
@@ -53,7 +52,7 @@ https://producto-api.vercel.app _(en proceso de deployment)_
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/producto-api.git
+git clone https://github.com/emmanuel-cruz-dev/talento-tech-api.git
 cd producto-api
 ```
 
@@ -169,7 +168,7 @@ Content-Type: application/json
 ### 2. Usar el token en requests posteriores
 
 ```bash
-curl -X GET http://localhost:3000/products \
+curl -X GET http://localhost:3000/api/products \
   -H "Authorization: Bearer tu_token_aqui"
 ```
 
@@ -183,28 +182,28 @@ curl -X GET http://localhost:3000/products \
 ### Crear producto
 
 ```bash
-curl -X POST http://localhost:3000/products/create \
+curl -X POST http://localhost:3000/api/products/create \
   -H "Authorization: Bearer tu_token_aqui" \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "Laptop Gaming",
-    "price": 1200,
-    "description": "Laptop para gaming de alta gama",
-    "category": "Electronics"
+    "nombre": "fideos",
+    "precio": 1200,
+    "disponible": true,
+    "categoria": "alimentos"
   }'
 ```
 
 ### Obtener todos los productos
 
 ```bash
-curl -X GET http://localhost:3000/products \
+curl -X GET http://localhost:3000/api/products \
   -H "Authorization: Bearer tu_token_aqui"
 ```
 
 ### Eliminar producto
 
 ```bash
-curl -X DELETE http://localhost:3000/products/producto_id \
+curl -X DELETE http://localhost:3000/api/products/producto_id \
   -H "Authorization: Bearer tu_token_aqui"
 ```
 
