@@ -67,9 +67,9 @@ const deleteProduct = async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
-    res.status(400).send({
-      status: "FAILED",
-      payload: { error: "Se requiere el ID del producto" },
+    res.status(400).json({
+      message: "Se requiere el ID del producto",
+      payload: { error: "ID no proporcionado" },
     });
   }
 
@@ -77,14 +77,13 @@ const deleteProduct = async (req, res) => {
     const result = await productService.deleteProduct(id);
 
     res.status(200).send({
-      status: "OK",
-      payload: result.data,
       message: result.message,
+      payload: result.data || null,
     });
   } catch (error) {
-    res.status(error?.status || 500).send({
-      status: "FAILED",
-      data: { error: error?.message || "Error al eliminar el producto" },
+    res.status(error?.status || 500).json({
+      message: "Error al eliminar el producto",
+      payload: { error: error?.message || "Error interno del servidor" },
     });
   }
 };
