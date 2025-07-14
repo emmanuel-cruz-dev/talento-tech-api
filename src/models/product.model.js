@@ -22,8 +22,17 @@ const getAll = async () => {
   }
 };
 
-const getProductById = async (productId) => {
-  return null;
+const getProductById = async (id) => {
+  try {
+    const product = doc(db, "productos", id);
+    const productDoc = await getDoc(product);
+
+    if (!productDoc.exists()) return null;
+
+    return { id: productDoc.id, ...productDoc.data() };
+  } catch (error) {
+    throw new Error(`Error al obtener el producto: ${error.message}`);
+  }
 };
 
 const createProduct = async (product) => {
@@ -35,7 +44,7 @@ const createProduct = async (product) => {
   }
 };
 
-const deleteProduct = async (productId) => {
+const deleteProduct = async (id) => {
   return null;
 };
 
