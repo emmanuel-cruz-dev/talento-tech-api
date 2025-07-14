@@ -1,15 +1,14 @@
 # 🚀 API REST de Productos | Talento Tech
 
-**Proyecto Final - Curso Node.js TALENTO TECH**
+**Proyecto Final - Curso Backend TALENTO TECH - Julio 2025**
 
-📅 Julio 2025
 👩‍💻 Autor: Emmanuel Cruz
 
 ## 📝 **Descripción del Proyecto**
 
 API RESTful diseñada para administrar un catálogo de productos.
 
-🔐 Protegida mediante autenticación por token (JWT)
+🔐 Protegida mediante autenticación por token (JWT)  
 ☁️ Conectada a una base de datos NoSQL en **Firebase Firestore**
 
 Permite realizar operaciones CRUD:
