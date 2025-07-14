@@ -1,14 +1,5 @@
-import { db } from "../config/firebase.config.js";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  addDoc,
-  deleteDoc,
-} from "firebase/firestore";
-
-const productCollection = collection(db, "productos");
+import { doc, getDoc, getDocs, addDoc, deleteDoc } from "firebase/firestore";
+import { db, productCollection } from "../config/firebase.config.js";
 
 const getAll = async () => {
   try {
@@ -38,6 +29,7 @@ const getProductById = async (id) => {
 const createProduct = async (product) => {
   try {
     const newProduct = await addDoc(productCollection, product);
+
     return newProduct;
   } catch (error) {
     throw new Error("Error", error.message);
@@ -45,7 +37,20 @@ const createProduct = async (product) => {
 };
 
 const deleteProduct = async (id) => {
-  return null;
+  try {
+    const product = doc(db, "productos", id);
+    const productDoc = await getDoc(product);
+
+    if (!productDoc.exists()) {
+      throw new Error(`No se encontró el producto con ID '${id}'`);
+    }
+
+    await deleteDoc(product);
+
+    return { message: `Producto con ID '${id}' eliminado correctamente.` };
+  } catch (error) {
+    throw new Error(`Error al eliminar el producto: ${error.message}`);
+  }
 };
 
 export default { getAll, getProductById, createProduct, deleteProduct };
