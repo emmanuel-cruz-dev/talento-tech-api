@@ -12,10 +12,10 @@ POST http://localhost:3000/api/products/create
 Content-Type: application/json
 
 {
-  "nombre": "fideos",
-  "precio": "1900",
+  "nombre": "azúcar",
+  "precio": "2300",
   "categoria": "alimentos"
 }
 
 ### Eliminar producto por id
-DELETE http://localhost:3000/api/products/WxaHcA6lVbxVQQ0gxmBA
+DELETE http://localhost:3000/api/products/NeFG7y2Ema1ItebJUojL
