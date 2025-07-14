@@ -69,12 +69,15 @@ Crear archivo `.env` en la raíz del proyecto:
 
 ```env
 PORT=3000
-JWT_SECRET=tu_clave_secreta_super_larga_y_aleatoria_123456789
+JWT_SECRET=tu_clave_secreta_super
 
 # Firebase Configuration
-FIREBASE_PROJECT_ID=tu-proyecto-id
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\ntu-clave-privada\n-----END PRIVATE KEY-----\n"
-FIREBASE_CLIENT_EMAIL=tu-email@proyecto.iam.gserviceaccount.com
+FIREBASE_API_KEY= #tus credenciales de firestore
+FIREBASE_AUTH_DOMAIN= #tus credenciales de firestore
+FIREBASE_PROJECT_ID= #tus credenciales de firestore
+FIREBASE_STORAGE_BUCKET= #tus credenciales de firestore
+FIREBASE_MESSAGING_SENDER_ID= #tus credenciales de firestore
+FIREBASE_APP_ID= #tus credenciales de firestore
 ```
 
 ### 4. Ejecutar el servidor
@@ -95,11 +98,10 @@ Servidor corriendo en: `http://localhost:3000`
 
 ### Usuarios de prueba disponibles:
 
-| Username   | Password      | Role    |
-| ---------- | ------------- | ------- |
-| `admin`    | `password123` | admin   |
-| `user1`    | `password123` | user    |
-| `profesor` | `password123` | teacher |
+| Username | Password      | Role  |
+| -------- | ------------- | ----- |
+| `admin`  | `password123` | admin |
+| `user1`  | `password123` | user  |
 
 ### Ejemplo de login exitoso:
 
@@ -143,12 +145,12 @@ curl -X POST http://localhost:3000/auth/login \
 
 ### Productos
 
-| Método | Endpoint           | Descripción                 | Requiere Auth |
-| ------ | ------------------ | --------------------------- | ------------- |
-| GET    | `/products`        | Obtener todos los productos | ✅            |
-| GET    | `/products/:id`    | Obtener producto por ID     | ✅            |
-| POST   | `/products/create` | Crear nuevo producto        | ✅            |
-| DELETE | `/products/:id`    | Eliminar producto           | ✅            |
+| Método | Endpoint              | Descripción                 | Requiere Auth |
+| ------ | --------------------- | --------------------------- | ------------- |
+| GET    | `api/products`        | Obtener todos los productos | ✅            |
+| GET    | `api/products/:id`    | Obtener producto por ID     | ✅            |
+| POST   | `api/products/create` | Crear nuevo producto        | ✅            |
+| DELETE | `api/products/:id`    | Eliminar producto           | ✅            |
 
 ## 🛠 **Cómo usar los endpoints protegidos**
 
@@ -229,7 +231,7 @@ curl -X DELETE http://localhost:3000/products/producto_id \
 ## 📁 **Estructura del Proyecto**
 
 ```
-producto-api/
+src/
 ├── config/
 │   └── firebase.config.js
 ├── controllers/
@@ -238,6 +240,7 @@ producto-api/
 ├── middlewares/
 │   └── auth.middleware.js
 ├── models/
+│   ├── product.model.js
 │   └── user.model.js
 ├── routes/
 │   ├── auth.routes.js
@@ -245,10 +248,10 @@ producto-api/
 ├── services/
 │   ├── auth.service.js
 │   └── product.service.js
+├── index.js
 ├── .env
 ├── .gitignore
 ├── package.json
-├── server.js
 └── README.md
 ```
 
