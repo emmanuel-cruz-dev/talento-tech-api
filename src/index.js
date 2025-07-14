@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
+import { readFileSync } from "node:fs";
 import productRoutes from "./routes/product.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 
@@ -18,10 +19,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.send(`
-    <h1>Hola mundo!</h1>
-    <p>Visita la API de productos en este <a href="http://localhost:3000/api/products/">link</a>.</p>
-    `);
+  const htmlContent = readFileSync("./src/views/home.html", "utf8");
+  res.send(htmlContent);
 });
 
 // Routes
