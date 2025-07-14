@@ -8,7 +8,7 @@
 
 API RESTful diseñada para administrar un catálogo de productos.
 
-🔐 Protegida mediante autenticación por token (JWT)  
+🔐 Protegida mediante autenticación por token (JWT)
 ☁️ Conectada a una base de datos NoSQL en **Firebase Firestore**
 
 Permite realizar operaciones CRUD:
@@ -31,7 +31,7 @@ Además, gestiona errores 404, 401/403 y 500 según corresponda.
 
 ## 🔗 **API desplegada**
 
-https://producto-api.vercel.app _(en proceso de deployment)_
+https://talento-tech-api.vercel.app/
 
 ## 🧰 **Tecnologías Utilizadas**
 
