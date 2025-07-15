@@ -33,6 +33,8 @@ Además, gestiona errores 404, 401/403 y 500 según corresponda.
 
 https://talento-tech-api.vercel.app/
 
+🧪 **Pruebas en Postman:** Podés probar todos los endpoints usando esta URL base en lugar de localhost.
+
 ## 🧰 **Tecnologías Utilizadas**
 
 - ⚙️ **Node.js + Express**
@@ -67,7 +69,7 @@ Crear archivo `.env` en la raíz del proyecto:
 
 ```env
 PORT=3000
-JWT_SECRET=tu_clave_secreta_super
+JWT_SECRET=tu_clave_super_secreta
 
 # Firebase Configuration
 FIREBASE_API_KEY= #tus credenciales de firestore
@@ -230,6 +232,7 @@ curl -X DELETE http://localhost:3000/api/products/producto_id \
 
 ```
 src/
+├── index.js
 ├── config/
 │   └── firebase.config.js
 ├── controllers/
@@ -246,10 +249,14 @@ src/
 ├── services/
 │   ├── auth.service.js
 │   └── product.service.js
-├── index.js
+├── views/
+│   └── home.html
 ├── .env
+├── .env.example
 ├── .gitignore
+├── api.http
 ├── package.json
+├── vercel.json
 └── README.md
 ```
 
