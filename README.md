@@ -8,7 +8,7 @@
 
 API RESTful diseñada para administrar un catálogo de productos.
 
-🔐 Protegida mediante autenticación por token (JWT)
+🔐 Protegida mediante autenticación por token (JWT)  
 ☁️ Conectada a una base de datos NoSQL en **Firebase Firestore**
 
 Permite realizar operaciones CRUD:
