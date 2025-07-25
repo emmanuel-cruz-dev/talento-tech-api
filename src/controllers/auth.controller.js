@@ -8,7 +8,6 @@ const login = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Validate data
     if (!username || !password) {
       return res
         .status(400)
