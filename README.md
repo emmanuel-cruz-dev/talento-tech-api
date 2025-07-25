@@ -29,10 +29,11 @@ Además, gestiona errores 404, 401/403 y 500 según corresponda.
 - `middlewares/`: validación de tokens JWT
 - `config/`: configuración de Firebase y variables de entorno
 
-## 🔗 **API desplegada**
+## 🔗 **Demo en Vivo**
 
 https://talento-tech-api.vercel.app/
 
+⚠️ **Importante:** El demo público está disponible solo para visualización. Para pruebas completas, por favor sigue las intrucciones de instalación local.<br/>
 🧪 **Pruebas en Postman:** Podés probar todos los endpoints usando esta URL base en lugar de localhost.
 
 ## 🧰 **Tecnologías Utilizadas**
@@ -63,7 +64,32 @@ cd producto-api
 npm install
 ```
 
-### 3. Configurar variables de entorno
+### 3. Configurar tu propia base de datos Firebase
+Para ejecutar este proyecto localmente, necesitarás crear tu propia instancia de Firebase:
+Paso a paso:
+
+#### 1. Crear proyecto en Firebase:
+
+  - Ve a Firebase Console
+  - Haz clic en "Crear proyecto"
+  - Sigue el asistente de configuración
+
+
+#### 2. Configurar Firestore:
+
+  - En tu proyecto Firebase, ve a "Firestore Database"
+  - Haz clic en "Crear base de datos"
+  - Selecciona "Modo de prueba" para desarrollo
+
+
+#### 3. Obtener credenciales:
+
+  - Ve a Configuración del proyecto (ícono de engranaje)
+  - En la pestaña "General", busca "Tus apps"
+  - Haz clic en "Agregar app" → "Web"
+  - Copia las credenciales que aparecen
+
+### 4. Configurar variables de entorno
 
 Crear archivo `.env` en la raíz del proyecto:
 
@@ -80,7 +106,13 @@ FIREBASE_MESSAGING_SENDER_ID= #tus credenciales de firestore
 FIREBASE_APP_ID= #tus credenciales de firestore
 ```
 
-### 4. Ejecutar el servidor
+### 5. Configurar datos iniciales (opcional)
+Si quieres datos de prueba, puedes crear usuarios iniciales ejecutando:
+```bash
+npm run seed
+```
+
+### 6. Ejecutar el servidor
 
 ```bash
 npm start
@@ -161,8 +193,8 @@ POST /auth/login
 Content-Type: application/json
 
 {
-  "username": "admin",
-  "password": "password123"
+  "username": "tu_usuario",
+  "password": "tu_password"
 }
 ```
 
