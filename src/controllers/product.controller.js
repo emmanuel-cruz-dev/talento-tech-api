@@ -16,7 +16,7 @@ const getProductById = async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
-    return res.status(400).send({
+    return res.status(400).json({
       status: "FAILED",
       payload: {
         error: "Se requiere el ID del producto",
@@ -30,10 +30,10 @@ const getProductById = async (req, res) => {
     if (!product) {
       return res
         .status(404)
-        .send({ error: `Producto con ID '${id}' no encontrado` });
+        .json({ error: `Producto con ID '${id}' no encontrado` });
     }
 
-    res.send({ status: "OK", payload: product });
+    res.json({ status: "OK", payload: product });
   } catch (error) {
     res.status(error?.status || 500).json({
       status: "FAILED",
@@ -82,7 +82,7 @@ const deleteProduct = async (req, res) => {
   try {
     const result = await productService.deleteProduct(id);
 
-    res.status(200).send({
+    res.status(200).json({
       message: result.message,
       payload: result.data || null,
     });
