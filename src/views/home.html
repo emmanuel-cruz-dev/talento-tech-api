@@ -41,7 +41,7 @@
         transition: background 0.3s ease-in-out;
       }
 
-      .badge:hover {
+      a.badge:hover {
         background: #2978ad;
       }
 
@@ -133,8 +133,8 @@
     <div class="container">
       <h1>🚀 API de Productos - Talento Tech</h1>
 
-      <div style="text-align: center; margin-bottom: 30px">
-        <span class="badge">🎓 Proyecto Final - Backend Node.js</span>
+      <header style="text-align: center; margin-bottom: 30px">
+        <p class="badge">🎓 Proyecto Final - Backend Node.js</p>
         <a
           href="https://emmanuel-cruz.netlify.app/"
           target="_blank"
@@ -142,13 +142,13 @@
           class="badge"
           >👩‍💻 Autor: Emmanuel Cruz</a
         >
-      </div>
+      </header>
 
-      <div class="warning">
+      <article class="warning">
         <strong>🔐 Autenticación JWT Requerida</strong><br />
         Esta API requiere autenticación mediante tokens JWT para acceder a los
         endpoints protegidos.
-      </div>
+      </article>
 
       <h2>📋 Endpoints Disponibles</h2>
 
@@ -179,13 +179,13 @@
         <span class="endpoint">/api/products/:id</span> - Eliminar producto
       </p>
 
-      <div class="info">
+      <article class="info">
         <strong>💡 Para Desarrolladores</strong><br />
         Para probar esta API, necesitarás configurar tu propia instancia local
         siguiendo las instrucciones del repositorio.
-      </div>
+      </article>
 
-      <div class="steps">
+      <article class="steps">
         <h3>🛠 Cómo probar la API:</h3>
         <div class="step">
           <strong>1.</strong> Clona el repositorio y configura tu entorno local
@@ -203,16 +203,16 @@
           <strong>5.</strong> Agrégalo como Header:
           <span class="endpoint">Authorization: Bearer tu_token</span>
         </div>
-      </div>
+      </article>
 
-      <div class="info">
+      <article class="info">
         <strong>🔒 Nota de Seguridad</strong><br />
         Por razones de seguridad, no se proporcionan credenciales públicas. Para
         pruebas completas, configura tu propia instancia siguiendo las
         instrucciones del README.
-      </div>
+      </article>
 
-      <div style="text-align: center; margin: 20px 0">
+      <article style="text-align: center; margin: 20px 0">
         <a
           href="https://github.com/emmanuel-cruz-dev/talento-tech-api"
           class="github-link"
@@ -220,15 +220,15 @@
         >
           📚 Ver Documentación Completa en GitHub
         </a>
-      </div>
+      </article>
 
-      <div class="footer">
+      <footer class="footer">
         <p>
           <strong>Tecnologías:</strong> Node.js • Express • JWT • Firebase
           Firestore • bcrypt
         </p>
         <p>Proyecto educativo para <strong>Talento Tech 2025</strong></p>
-      </div>
+      </footer>
     </div>
   </body>
 </html>
