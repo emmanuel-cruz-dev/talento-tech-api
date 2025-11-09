@@ -5,8 +5,8 @@ import authenticateToken from "../middlewares/auth.middleware.js";
 const router = Router();
 
 router
-  .get("/", authenticateToken, productController.getAllProducts)
-  .get("/:id", authenticateToken, productController.getProductById)
+  .get("/", productController.getAllProducts)
+  .get("/:id", productController.getProductById)
   .post("/create", authenticateToken, productController.createProduct)
   .delete("/:id", authenticateToken, productController.deleteProduct);
 
