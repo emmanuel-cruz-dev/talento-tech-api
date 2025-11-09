@@ -1,5 +1,6 @@
 import { doc, getDoc, getDocs, addDoc, deleteDoc } from "firebase/firestore";
 import { db, productCollection } from "../config/firebase.config.js";
+import { dbAdmin } from "../config/firebase.js";
 
 const getAll = async () => {
   try {
@@ -53,4 +54,23 @@ const deleteProduct = async (id) => {
   }
 };
 
-export default { getAll, getProductById, createProduct, deleteProduct };
+const createManyProducts = async (products) => {
+  const batch = dbAdmin.batch();
+  const productsRef = dbAdmin.collection("productos");
+
+  products.forEach((p) => {
+    const ref = productsRef.doc();
+    batch.set(ref, p);
+  });
+
+  await batch.commit();
+  return { message: `${products.length} productos creados exitosamente` };
+};
+
+export default {
+  getAll,
+  getProductById,
+  createProduct,
+  deleteProduct,
+  createManyProducts,
+};
