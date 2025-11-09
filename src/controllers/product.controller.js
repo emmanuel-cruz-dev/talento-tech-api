@@ -44,26 +44,45 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { nombre, precio, categoria, disponible } = req.body;
+    const {
+      name,
+      description,
+      price,
+      image,
+      category,
+      stock,
+      rating,
+      brand,
+      isActive,
+    } = req.body;
 
-    if (!nombre || !precio || !categoria) {
+    if (!name || !price || !category) {
       return res.status(400).json({
-        error: "Faltan campos requeridos: nombre, precio, categoria",
+        error: "Faltan campos requeridos: name, price, category",
       });
     }
 
     const newProduct = {
-      nombre,
-      precio: +precio,
-      categoria,
-      disponible: disponible || false,
+      name,
+      description: description || "",
+      price: +price,
+      image: image || "",
+      category,
+      stock: stock !== undefined ? +stock : 0,
+      rating: rating !== undefined ? +rating : 0,
+      brand: brand || "Sin marca",
+      isActive: isActive !== undefined ? Boolean(isActive) : true,
+      createdAt: new Date().toISOString(),
     };
 
     await productService.createProduct(newProduct);
-    res
-      .status(201)
-      .json({ message: "Lista de productos", payload: newProduct });
+
+    res.status(201).json({
+      message: "Producto creado exitosamente",
+      payload: newProduct,
+    });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Error al crear producto" });
   }
 };
@@ -93,4 +112,71 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-export default { getAllProducts, getProductById, createProduct, deleteProduct };
+const createManyProducts = async (req, res) => {
+  try {
+    const products = req.body;
+
+    if (!Array.isArray(products) || products.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "Debe enviar un array de productos" });
+    }
+
+    const validProducts = [];
+    const invalidProducts = [];
+
+    for (const item of products) {
+      const { name, price, category } = item;
+
+      if (!name || !price || !category) {
+        invalidProducts.push(item);
+        continue;
+      }
+
+      validProducts.push({
+        name,
+        description: item.description || "",
+        price: +item.price,
+        image: item.image || "",
+        category,
+        stock: item.stock !== undefined ? +item.stock : 0,
+        rating: item.rating !== undefined ? +item.rating : 0,
+        brand: item.brand || "Sin marca",
+        isActive: item.isActive !== undefined ? Boolean(item.isActive) : true,
+        createdAt: new Date().toISOString(),
+      });
+    }
+
+    if (validProducts.length === 0) {
+      return res.status(400).json({
+        error: "Ningún producto válido para crear",
+        invalidProducts,
+      });
+    }
+
+    const createdProducts = await productService.createManyProducts(
+      validProducts
+    );
+
+    res.status(201).json({
+      message: "Productos creados exitosamente",
+      createdCount: createdProducts.length,
+      invalidCount: invalidProducts.length,
+      payload: createdProducts,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: "Error al crear productos masivamente",
+      payload: { error: error?.message || "Error interno del servidor" },
+    });
+  }
+};
+
+export default {
+  getAllProducts,
+  getProductById,
+  createProduct,
+  deleteProduct,
+  createManyProducts,
+};
