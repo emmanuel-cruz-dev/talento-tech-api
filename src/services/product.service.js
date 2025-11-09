@@ -16,4 +16,14 @@ const deleteProduct = async (productId) => {
   return await productModel.deleteProduct(productId);
 };
 
-export default { getAll, getProductById, createProduct, deleteProduct };
+const createManyProducts = async (products) => {
+  return await productModel.createManyProducts(products);
+};
+
+export default {
+  getAll,
+  getProductById,
+  createProduct,
+  deleteProduct,
+  createManyProducts,
+};
