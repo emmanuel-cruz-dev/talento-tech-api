@@ -8,7 +8,7 @@
 
 API RESTful diseñada para administrar un catálogo de productos.
 
-🔐 Protegida mediante autenticación por token (JWT)  
+🔐 Protegida mediante autenticación por token (JWT)
 ☁️ Conectada a una base de datos NoSQL en **Firebase Firestore**
 
 Permite realizar operaciones CRUD:
@@ -65,29 +65,28 @@ npm install
 ```
 
 ### 3. Configurar tu propia base de datos Firebase
+
 Para ejecutar este proyecto localmente, necesitarás crear tu propia instancia de Firebase:
 Paso a paso:
 
 #### 1. Crear proyecto en Firebase:
 
-  - Ve a Firebase Console
-  - Haz clic en "Crear proyecto"
-  - Sigue el asistente de configuración
-
+- Ve a Firebase Console
+- Haz clic en "Crear proyecto"
+- Sigue el asistente de configuración
 
 #### 2. Configurar Firestore:
 
-  - En tu proyecto Firebase, ve a "Firestore Database"
-  - Haz clic en "Crear base de datos"
-  - Selecciona "Modo de prueba" para desarrollo
-
+- En tu proyecto Firebase, ve a "Firestore Database"
+- Haz clic en "Crear base de datos"
+- Selecciona "Modo de prueba" para desarrollo
 
 #### 3. Obtener credenciales:
 
-  - Ve a Configuración del proyecto (ícono de engranaje)
-  - En la pestaña "General", busca "Tus apps"
-  - Haz clic en "Agregar app" → "Web"
-  - Copia las credenciales que aparecen
+- Ve a Configuración del proyecto (ícono de engranaje)
+- En la pestaña "General", busca "Tus apps"
+- Haz clic en "Agregar app" → "Web"
+- Copia las credenciales que aparecen
 
 ### 4. Configurar variables de entorno
 
@@ -107,7 +106,9 @@ FIREBASE_APP_ID= #tus credenciales de firestore
 ```
 
 ### 5. Configurar datos iniciales (opcional)
+
 Si quieres datos de prueba, puedes crear usuarios iniciales ejecutando:
+
 ```bash
 npm run seed
 ```
@@ -179,8 +180,8 @@ curl -X POST http://localhost:3000/auth/login \
 
 | Método | Endpoint              | Descripción                 | Requiere Auth |
 | ------ | --------------------- | --------------------------- | ------------- |
-| GET    | `api/products`        | Obtener todos los productos | ✅            |
-| GET    | `api/products/:id`    | Obtener producto por ID     | ✅            |
+| GET    | `api/products`        | Obtener todos los productos | ❌            |
+| GET    | `api/products/:id`    | Obtener producto por ID     | ❌            |
 | POST   | `api/products/create` | Crear nuevo producto        | ✅            |
 | DELETE | `api/products/:id`    | Eliminar producto           | ✅            |
 
