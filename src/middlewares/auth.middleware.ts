@@ -1,6 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -9,7 +11,13 @@ const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).json({ error: "Token requerido" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  if (!JWT_SECRET) {
+    return res.status(500).json({
+      error: "JWT_SECRET is not defined in the environment variables",
+    });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(403).json({ error: "Token inválido" });
     }
