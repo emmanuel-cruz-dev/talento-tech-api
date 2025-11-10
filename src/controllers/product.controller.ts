@@ -1,11 +1,21 @@
 import type { Request, Response } from "express";
 import productService from "../services/product.service.ts";
+import type {
+  Product,
+  PaginationOptions,
+  ProductQueryParams,
+  PaginatedResult,
+  CreateProductData,
+} from "../types/index.ts";
 
-const getAllProducts = async (req: Request, res: Response) => {
+const getAllProducts = async (
+  req: Request<{}, {}, {}, ProductQueryParams>,
+  res: Response
+): Promise<void> => {
   try {
     const {
-      limit = 10,
-      page = 1,
+      limit = "10",
+      page = "1",
       sortBy = "createdAt",
       order = "desc",
       search,
@@ -21,7 +31,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     const parsedLimit = Math.min(parseInt(limit) || 10, 100);
     const parsedPage = parseInt(page) || 1;
 
-    const options = {
+    const options: PaginationOptions = {
       limit: parsedLimit,
       page: parsedPage,
       sortBy,
@@ -38,7 +48,9 @@ const getAllProducts = async (req: Request, res: Response) => {
     if (isActive !== undefined) options.filters.isActive = isActive === "true";
     if (startAfter) options.startAfter = startAfter;
 
-    const result = await productService.getAllWithPagination(options);
+    const result: PaginatedResult = await productService.getAllWithPagination(
+      options
+    );
 
     res.status(200).json({
       message: "Lista de productos",
@@ -53,7 +65,7 @@ const getAllProducts = async (req: Request, res: Response) => {
         nextCursor: result.nextCursor,
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(error?.status || 500).json({
       message: "Error al obtener los productos",
       payload: { error: error?.message || "Error interno del servidor" },
@@ -61,7 +73,10 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-const getProductById = async (req: Request, res: Response) => {
+const getProductById = async (
+  req: Request<{ id: string }>,
+  res: Response
+): Promise<Response | void> => {
   const { id } = req.params;
 
   if (!id) {
@@ -83,7 +98,7 @@ const getProductById = async (req: Request, res: Response) => {
     }
 
     res.json({ status: "OK", payload: product });
-  } catch (error) {
+  } catch (error: any) {
     res.status(error?.status || 500).json({
       status: "FAILED",
       payload: { error: error?.message || "Error al obtener el producto" },
@@ -91,7 +106,10 @@ const getProductById = async (req: Request, res: Response) => {
   }
 };
 
-const createProduct = async (req: Request, res: Response) => {
+const createProduct = async (
+  req: Request<{}, {}, Partial<Product>>,
+  res: Response
+): Promise<Response | void> => {
   try {
     const {
       name,
@@ -105,13 +123,13 @@ const createProduct = async (req: Request, res: Response) => {
       isActive,
     } = req.body;
 
-    if (!name || !price || !category) {
+    if (!name || price === undefined || !category) {
       return res.status(400).json({
         error: "Faltan campos requeridos: name, price, category",
       });
     }
 
-    const newProduct = {
+    const newProduct: CreateProductData = {
       name,
       description: description || "",
       price: +price,
@@ -130,13 +148,16 @@ const createProduct = async (req: Request, res: Response) => {
       message: "Producto creado exitosamente",
       payload: newProduct,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({ error: "Error al crear producto" });
   }
 };
 
-const deleteProduct = async (req: Request, res: Response) => {
+const deleteProduct = async (
+  req: Request<{ id: string }>,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
 
   if (!id) {
@@ -144,16 +165,18 @@ const deleteProduct = async (req: Request, res: Response) => {
       message: "Se requiere el ID del producto",
       payload: { error: "ID no proporcionado" },
     });
+    return;
   }
 
   try {
-    const result = await productService.deleteProduct(id);
+    const result: { message: string; data?: any } =
+      await productService.deleteProduct(id);
 
     res.status(200).json({
       message: result.message,
       payload: result.data || null,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(error?.status || 500).json({
       message: "Error al eliminar el producto",
       payload: { error: error?.message || "Error interno del servidor" },
@@ -161,7 +184,10 @@ const deleteProduct = async (req: Request, res: Response) => {
   }
 };
 
-const createManyProducts = async (req: Request, res: Response) => {
+const createManyProducts = async (
+  req: Request<{}, {}, Partial<Product>[]>,
+  res: Response
+): Promise<Response | void> => {
   try {
     const products = req.body;
 
@@ -171,13 +197,13 @@ const createManyProducts = async (req: Request, res: Response) => {
         .json({ error: "Debe enviar un array de productos" });
     }
 
-    const validProducts = [];
-    const invalidProducts = [];
+    const validProducts: CreateProductData[] = [];
+    const invalidProducts: Partial<Product>[] = [];
 
     for (const item of products) {
       const { name, price, category } = item;
 
-      if (!name || !price || !category) {
+      if (!name || price === undefined || !category) {
         invalidProducts.push(item);
         continue;
       }
@@ -185,7 +211,7 @@ const createManyProducts = async (req: Request, res: Response) => {
       validProducts.push({
         name,
         description: item.description || "",
-        price: +item.price,
+        price: item.price !== undefined ? +item.price : 0,
         image: item.image || "",
         category,
         stock: item.stock !== undefined ? +item.stock : 0,
@@ -203,17 +229,17 @@ const createManyProducts = async (req: Request, res: Response) => {
       });
     }
 
-    const createdProducts = await productService.createManyProducts(
+    const result: { message: string } = await productService.createManyProducts(
       validProducts
     );
 
     res.status(201).json({
       message: "Productos creados exitosamente",
-      createdCount: createdProducts.length,
+      createdCount: validProducts.length,
       invalidCount: invalidProducts.length,
-      payload: createdProducts,
+      payload: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({
       error: "Error al crear productos masivamente",
