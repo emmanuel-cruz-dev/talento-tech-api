@@ -1,3 +1,4 @@
+import type { Request, Response, NextFunction } from "express";
 import { query, validationResult } from "express-validator";
 
 export const validateProductQuery = [
@@ -81,7 +82,7 @@ export const validateProductQuery = [
     .isString()
     .withMessage("startAfter debe ser un ID de documento válido"),
 
-  (req, res, next) => {
+  (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -101,7 +102,11 @@ export const validateProductQuery = [
   },
 ];
 
-export const validatePriceRange = (req, res, next) => {
+export const validatePriceRange = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { minPrice, maxPrice } = req.query;
 
   if (minPrice && maxPrice && parseFloat(minPrice) > parseFloat(maxPrice)) {

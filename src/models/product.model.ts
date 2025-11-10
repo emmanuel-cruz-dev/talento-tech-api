@@ -11,18 +11,22 @@ import {
   startAfter as firestoreStartAfter,
   getCountFromServer,
 } from "firebase/firestore";
-import { db, productCollection } from "../config/firebase.config.js";
-import { dbAdmin } from "../config/firebase.js";
+import { db, productCollection } from "../config/firebase.config.ts";
+import { dbAdmin } from "../config/firebase.ts";
+import { Product } from "../types/product.types.ts";
 
 const getAll = async () => {
   try {
     const productList = await getDocs(productCollection);
-    const products = [];
+    const products: Product[] = [];
     productList.forEach((doc) => products.push({ id: doc.id, ...doc.data() }));
 
     return products;
-  } catch (error) {
-    throw new Error("Error", error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error("Error", error.message);
+    }
+    throw new Error("Error al obtener productos");
   }
 };
 
@@ -157,7 +161,7 @@ const getAllWithPagination = async (options) => {
   }
 };
 
-const getProductById = async (id) => {
+const getProductById = async (id: string) => {
   try {
     const product = doc(db, "productos", id);
     const productDoc = await getDoc(product);
@@ -170,7 +174,7 @@ const getProductById = async (id) => {
   }
 };
 
-const createProduct = async (product) => {
+const createProduct = async (product: Product) => {
   try {
     const newProduct = await addDoc(productCollection, product);
 
@@ -180,7 +184,7 @@ const createProduct = async (product) => {
   }
 };
 
-const deleteProduct = async (id) => {
+const deleteProduct = async (id: string) => {
   try {
     const product = doc(db, "productos", id);
     const productDoc = await getDoc(product);
@@ -197,7 +201,7 @@ const deleteProduct = async (id) => {
   }
 };
 
-const createManyProducts = async (products) => {
+const createManyProducts = async (products: Product[]) => {
   const batch = dbAdmin.batch();
   const productsRef = dbAdmin.collection("productos");
 

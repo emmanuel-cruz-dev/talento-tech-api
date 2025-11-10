@@ -1,6 +1,7 @@
-import productService from "../services/product.service.js";
+import type { Request, Response } from "express";
+import productService from "../services/product.service.ts";
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (req: Request, res: Response) => {
   try {
     const {
       limit = 10,
@@ -60,7 +61,7 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-const getProductById = async (req, res) => {
+const getProductById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   if (!id) {
@@ -90,7 +91,7 @@ const getProductById = async (req, res) => {
   }
 };
 
-const createProduct = async (req, res) => {
+const createProduct = async (req: Request, res: Response) => {
   try {
     const {
       name,
@@ -135,7 +136,7 @@ const createProduct = async (req, res) => {
   }
 };
 
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   if (!id) {
@@ -160,7 +161,7 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-const createManyProducts = async (req, res) => {
+const createManyProducts = async (req: Request, res: Response) => {
   try {
     const products = req.body;
 

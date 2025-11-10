@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
-import { users } from "../models/user.model.js";
+import { users } from "../models/user.model.ts";
 
-const validateUser = async (username, password) => {
+const validateUser = async (username: string, password: string) => {
   try {
     const user = users.find((u) => u.username === username);
 

@@ -1,10 +1,11 @@
+import type { Request, Response } from "express";
 import { config } from "dotenv";
 import jwt from "jsonwebtoken";
-import validateUser from "../services/auth.service.js";
+import validateUser from "../services/auth.service.ts";
 
 config();
 
-const login = async (req, res) => {
+const login = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
 
