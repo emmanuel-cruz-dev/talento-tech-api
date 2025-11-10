@@ -1,7 +1,11 @@
 import type { Request, Response, NextFunction } from "express";
 import { query, validationResult } from "express-validator";
+import type {
+  ProductQueryParams,
+  ValidationMiddleware,
+} from "../types/index.ts";
 
-export const validateProductQuery = [
+export const validateProductQuery: ValidationMiddleware[] = [
   query("limit")
     .optional()
     .isInt({ min: 1, max: 100 })
@@ -82,7 +86,11 @@ export const validateProductQuery = [
     .isString()
     .withMessage("startAfter debe ser un ID de documento válido"),
 
-  (req: Request, res: Response, next: NextFunction) => {
+  (
+    req: Request<{}, {}, {}, ProductQueryParams>,
+    res: Response,
+    next: NextFunction
+  ): void | Response => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -90,9 +98,9 @@ export const validateProductQuery = [
         message: "Error de validación en los parámetros",
         payload: {
           errors: errors.array().map((err) => ({
-            field: err.path,
+            field: err.type === "field" ? err.path : "unknown",
             message: err.msg,
-            value: err.value,
+            value: "value" in err ? err.value : undefined,
           })),
         },
       });
@@ -103,10 +111,10 @@ export const validateProductQuery = [
 ];
 
 export const validatePriceRange = (
-  req: Request,
+  req: Request<{}, {}, {}, ProductQueryParams>,
   res: Response,
   next: NextFunction
-) => {
+): void | Response => {
   const { minPrice, maxPrice } = req.query;
 
   if (minPrice && maxPrice && parseFloat(minPrice) > parseFloat(maxPrice)) {
