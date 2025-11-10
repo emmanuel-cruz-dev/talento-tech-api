@@ -12,10 +12,233 @@ POST http://localhost:3000/api/products/create
 Content-Type: application/json
 
 {
-  "nombre": "arróz",
-  "precio": 2100,
-  "categoria": "alimentos"
+  "name": "Remera de algodón",
+  "description": "Remera lisa de algodón 100%, ideal para uso diario. Disponible en varios colores.",
+  "price": 8990,
+  "image": "https://i.imgur.com/NCrEI70.png",
+  "category": "ropa de hombre",
+  "stock": 25,
+  "rating": 4.3,
+  "brand": "Legacy",
+  "isActive": true
 }
 
+
 ### Eliminar producto por id
-DELETE http://localhost:3000/api/products/NeFG7y2Ema1ItebJUojL
+DELETE http://localhost:3000/api/products/TyxbB7jyf1FAzSxuYZXm
+
+### Crear varios productos
+POST http://localhost:3000/api/products/bulk
+Content-Type: application/json
+
+[
+  {
+    "name": "Campera deportiva Adidas",
+    "description": "Campera con capucha y cierre completo, ideal para entrenamientos o uso urbano.",
+    "price": 38990,
+    "image": "https://i.imgur.com/WMM9SVN.png",
+    "category": "ropa de hombre",
+    "stock": 15,
+    "rating": 4.8,
+    "brand": "Adidas",
+    "isActive": true
+  },
+  {
+    "name": "Camisa Oxford azul",
+    "description": "Camisa formal de algodón Oxford, perfecta para oficina o eventos.",
+    "price": 23990,
+    "image": "https://i.imgur.com/KGQdaqA.png",
+    "category": "ropa de hombre",
+    "stock": 18,
+    "rating": 4.2,
+    "brand": "Arrow",
+    "isActive": true
+  },
+  {
+    "name": "Bermuda de gabardina",
+    "description": "Bermuda de gabardina con bolsillos laterales, ideal para verano.",
+    "price": 15990,
+    "image": "https://i.imgur.com/LN7WmQk.jpg",
+    "category": "ropa de hombre",
+    "stock": 30,
+    "rating": 4.3,
+    "brand": "Kevingston",
+    "isActive": true
+  },
+  {
+    "name": "Sweater de hilo calado",
+    "description": "Sweater tejido con diseño calado y cuello redondo.",
+    "price": 20990,
+    "image": "https://i.imgur.com/3ZDlZyP.jpg",
+    "category": "ropa de mujer",
+    "stock": 16,
+    "rating": 4.3,
+    "brand": "Tucci",
+    "isActive": true
+  },
+  {
+    "name": "Pantalón sastrero beige",
+    "description": "Pantalón estilo sastrero con pinzas, elegante y cómodo.",
+    "price": 28990,
+    "image": "https://i.imgur.com/4Aftv2P.jpg",
+    "category": "ropa de mujer",
+    "stock": 14,
+    "rating": 4.1,
+    "brand": "Vitamina",
+    "isActive": false
+  },
+  {
+    "name": "Notebook Lenovo IdeaPad 3",
+    "description": "Notebook Lenovo IdeaPad 3 Intel i5, 8GB RAM, SSD 512GB, pantalla 15.6”.",
+    "price": 699999,
+    "image": "https://i.imgur.com/7eZQzS6.jpg",
+    "category": "tecnología",
+    "stock": 8,
+    "rating": 4.6,
+    "brand": "Lenovo",
+    "isActive": true
+  },
+  {
+    "name": "Auriculares JBL Tune 510BT",
+    "description": "Auriculares Bluetooth inalámbricos con micrófono y hasta 40 horas de batería.",
+    "price": 49999,
+    "image": "https://i.imgur.com/8hrE0zz.jpg",
+    "category": "tecnología",
+    "stock": 22,
+    "rating": 4.4,
+    "brand": "JBL",
+    "isActive": true
+  },
+  {
+    "name": "Smart TV Samsung 50'' 4K UHD",
+    "description": "Televisor Smart TV 50 pulgadas con resolución 4K UHD, compatible con Netflix y Disney+.",
+    "price": 569999,
+    "image": "https://i.imgur.com/TyGz5aB.jpg",
+    "category": "tecnología",
+    "stock": 12,
+    "rating": 4.9,
+    "brand": "Samsung",
+    "isActive": true
+  },
+  {
+    "name": "Celular Motorola Edge 40",
+    "description": "Smartphone 5G con pantalla OLED 6.5'', cámara 50MP y carga rápida.",
+    "price": 459999,
+    "image": "https://i.imgur.com/7lDeDYx.jpg",
+    "category": "tecnología",
+    "stock": 15,
+    "rating": 4.5,
+    "brand": "Motorola",
+    "isActive": true
+  },
+  {
+    "name": "Tablet Samsung Galaxy Tab A9",
+    "description": "Pantalla 10.5'' y 64GB de almacenamiento. Ideal para entretenimiento y estudio.",
+    "price": 299999,
+    "image": "https://i.imgur.com/vEUgQqU.jpg",
+    "category": "tecnología",
+    "stock": 10,
+    "rating": 4.3,
+    "brand": "Samsung",
+    "isActive": true
+  },
+  {
+    "name": "Parlante portátil JBL Flip 6",
+    "description": "Parlante Bluetooth resistente al agua con sonido potente y batería de 12h.",
+    "price": 89999,
+    "image": "https://i.imgur.com/HSmrD9p.jpg",
+    "category": "tecnología",
+    "stock": 25,
+    "rating": 4.7,
+    "brand": "JBL",
+    "isActive": false
+  },
+  {
+    "name": "Monitor LG 27'' Full HD",
+    "description": "Pantalla LED 27 pulgadas con tecnología IPS y bordes delgados.",
+    "price": 299999,
+    "image": "https://i.imgur.com/otVh5Ms.jpg",
+    "category": "tecnología",
+    "stock": 14,
+    "rating": 4.6,
+    "brand": "LG",
+    "isActive": true
+  },
+  {
+    "name": "Mouse gamer Logitech G203",
+    "description": "Mouse gamer con sensor de alta precisión y luces RGB personalizables.",
+    "price": 24999,
+    "image": "https://i.imgur.com/ebHYk2O.jpg",
+    "category": "gaming",
+    "stock": 40,
+    "rating": 4.7,
+    "brand": "Logitech",
+    "isActive": true
+  },
+  {
+    "name": "Teclado Redragon Kumara K552",
+    "description": "Teclado mecánico retroiluminado, switches Red, ideal para gamers exigentes.",
+    "price": 41999,
+    "image": "https://i.imgur.com/uw2I2Pa.jpg",
+    "category": "gaming",
+    "stock": 35,
+    "rating": 4.8,
+    "brand": "Redragon",
+    "isActive": true
+  },
+  {
+    "name": "Consola PlayStation 5",
+    "description": "Consola de videojuegos Sony PlayStation 5, 1TB SSD, control DualSense incluido.",
+    "price": 1499999,
+    "image": "https://i.imgur.com/wi1Q1V2.jpg",
+    "category": "gaming",
+    "stock": 5,
+    "rating": 5,
+    "brand": "Sony",
+    "isActive": true
+  },
+  {
+    "name": "Joystick Xbox Series X",
+    "description": "Control inalámbrico con Bluetooth, vibración y diseño ergonómico.",
+    "price": 79999,
+    "image": "https://i.imgur.com/EZKfq6B.jpg",
+    "category": "gaming",
+    "stock": 18,
+    "rating": 4.6,
+    "brand": "Microsoft",
+    "isActive": true
+  },
+  {
+    "name": "Silla gamer Vertagear SL4000",
+    "description": "Silla ergonómica ajustable con apoyabrazos 4D y tapizado premium.",
+    "price": 459999,
+    "image": "https://i.imgur.com/LukcnjL.jpg",
+    "category": "gaming",
+    "stock": 7,
+    "rating": 4.9,
+    "brand": "Vertagear",
+    "isActive": true
+  },
+  {
+    "name": "Auriculares HyperX Cloud II",
+    "description": "Auriculares con sonido envolvente 7.1 y micrófono desmontable.",
+    "price": 99999,
+    "image": "https://i.imgur.com/dwK9s9y.jpg",
+    "category": "gaming",
+    "stock": 20,
+    "rating": 4.8,
+    "brand": "HyperX",
+    "isActive": true
+  },
+  {
+    "name": "Micrófono Blue Yeti",
+    "description": "Micrófono profesional USB ideal para streaming, grabaciones y podcast.",
+    "price": 189999,
+    "image": "https://i.imgur.com/PPkRt6n.jpg",
+    "category": "gaming",
+    "stock": 9,
+    "rating": 4.9,
+    "brand": "Blue",
+    "isActive": false
+  }
+]
