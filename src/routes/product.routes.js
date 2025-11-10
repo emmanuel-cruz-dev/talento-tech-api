@@ -1,11 +1,20 @@
 import { Router } from "express";
 import productController from "../controllers/product.controller.js";
 import authenticateToken from "../middlewares/auth.middleware.js";
+import {
+  validateProductQuery,
+  validatePriceRange,
+} from "../middlewares/validateQuery.middleware.js";
 
 const router = Router();
 
 router
-  .get("/", productController.getAllProducts)
+  .get(
+    "/",
+    validateProductQuery,
+    validatePriceRange,
+    productController.getAllProducts
+  )
   .get("/:id", productController.getProductById)
   .post("/create", authenticateToken, productController.createProduct)
   .delete("/:id", authenticateToken, productController.deleteProduct)
