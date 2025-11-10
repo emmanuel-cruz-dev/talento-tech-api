@@ -1,4 +1,16 @@
-import { doc, getDoc, getDocs, addDoc, deleteDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  query,
+  where,
+  orderBy,
+  limit as firestoreLimit,
+  startAfter as firestoreStartAfter,
+  getCountFromServer,
+} from "firebase/firestore";
 import { db, productCollection } from "../config/firebase.config.js";
 import { dbAdmin } from "../config/firebase.js";
 
@@ -11,6 +23,137 @@ const getAll = async () => {
     return products;
   } catch (error) {
     throw new Error("Error", error.message);
+  }
+};
+
+const getAllWithPagination = async (options) => {
+  const {
+    limit = 10,
+    page = 1,
+    sortBy = "createdAt",
+    order = "desc",
+    filters = {},
+    startAfter = null,
+  } = options;
+
+  try {
+    let q = productCollection;
+    const constraints = [];
+
+    if (filters.category) {
+      constraints.push(where("category", "==", filters.category));
+    }
+
+    if (filters.brand) {
+      constraints.push(where("brand", "==", filters.brand));
+    }
+
+    if (filters.isActive !== undefined) {
+      constraints.push(where("isActive", "==", filters.isActive));
+    }
+
+    if (filters.minPrice !== undefined) {
+      constraints.push(where("price", ">=", filters.minPrice));
+    }
+
+    if (filters.maxPrice !== undefined) {
+      constraints.push(where("price", "<=", filters.maxPrice));
+    }
+
+    if (filters.minRating !== undefined) {
+      constraints.push(where("rating", ">=", filters.minRating));
+    }
+
+    if (filters.search) {
+      const searchTerm = filters.search;
+      constraints.push(where("name", ">=", searchTerm));
+      constraints.push(where("name", "<=", searchTerm + "\uf8ff"));
+    }
+
+    constraints.push(orderBy(sortBy, order));
+
+    if (startAfter) {
+      const startDoc = await getDoc(doc(db, "productos", startAfter));
+      if (startDoc.exists()) {
+        constraints.push(firestoreStartAfter(startDoc));
+      }
+    }
+
+    constraints.push(firestoreLimit(limit + 1));
+
+    q = query(productCollection, ...constraints);
+    const snapshot = await getDocs(q);
+
+    let totalQuery = productCollection;
+    const countConstraints = [];
+
+    if (filters.category) {
+      countConstraints.push(where("category", "==", filters.category));
+    }
+    if (filters.brand) {
+      countConstraints.push(where("brand", "==", filters.brand));
+    }
+    if (filters.isActive !== undefined) {
+      countConstraints.push(where("isActive", "==", filters.isActive));
+    }
+    if (filters.minPrice !== undefined) {
+      countConstraints.push(where("price", ">=", filters.minPrice));
+    }
+    if (filters.maxPrice !== undefined) {
+      countConstraints.push(where("price", "<=", filters.maxPrice));
+    }
+    if (filters.minRating !== undefined) {
+      countConstraints.push(where("rating", ">=", filters.minRating));
+    }
+
+    if (countConstraints.length > 0) {
+      totalQuery = query(productCollection, ...countConstraints);
+    }
+
+    const totalSnapshot = await getCountFromServer(totalQuery);
+    const total = totalSnapshot.data().count;
+
+    const products = [];
+    const hasNext = snapshot.docs.length > limit;
+
+    snapshot.docs.slice(0, limit).forEach((doc) => {
+      products.push({
+        id: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    let filteredProducts = products;
+    if (
+      filters.search &&
+      !constraints.some(
+        (c) => c.type === "where" && c.field.segments.includes("name")
+      )
+    ) {
+      const searchLower = filters.search.toLowerCase();
+      filteredProducts = products.filter(
+        (p) =>
+          p.name.toLowerCase().includes(searchLower) ||
+          (p.description && p.description.toLowerCase().includes(searchLower))
+      );
+    }
+
+    const nextCursor =
+      hasNext && filteredProducts.length > 0
+        ? filteredProducts[filteredProducts.length - 1].id
+        : null;
+
+    return {
+      products: filteredProducts,
+      total,
+      hasNext,
+      nextCursor,
+    };
+  } catch (error) {
+    console.error("Error en getAllWithPagination:", error);
+    throw new Error(
+      `Error al obtener productos con paginación: ${error.message}`
+    );
   }
 };
 
@@ -69,6 +212,7 @@ const createManyProducts = async (products) => {
 
 export default {
   getAll,
+  getAllWithPagination,
   getProductById,
   createProduct,
   deleteProduct,
