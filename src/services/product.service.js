@@ -4,6 +4,10 @@ const getAll = async () => {
   return await productModel.getAll();
 };
 
+const getAllWithPagination = async (options) => {
+  return await productModel.getAllWithPagination(options);
+};
+
 const getProductById = async (productId) => {
   return await productModel.getProductById(productId);
 };
@@ -22,6 +26,7 @@ const createManyProducts = async (products) => {
 
 export default {
   getAll,
+  getAllWithPagination,
   getProductById,
   createProduct,
   deleteProduct,
