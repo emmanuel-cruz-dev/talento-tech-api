@@ -10,27 +10,37 @@ import {
   limit as firestoreLimit,
   startAfter as firestoreStartAfter,
   getCountFromServer,
+  QueryConstraint,
 } from "firebase/firestore";
 import { db, productCollection } from "../config/firebase.config.ts";
 import { dbAdmin } from "../config/firebase.ts";
-import { Product } from "../types/product.types.ts";
+import type {
+  Product,
+  PaginationOptions,
+  PaginatedResult,
+} from "../types/index.ts";
 
-const getAll = async () => {
+const getAll = async (): Promise<Product[]> => {
   try {
     const productList = await getDocs(productCollection);
     const products: Product[] = [];
-    productList.forEach((doc) => products.push({ id: doc.id, ...doc.data() }));
+    productList.forEach((doc) =>
+      products.push({ id: doc.id, ...doc.data() } as Product)
+    );
 
     return products;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error("Error", error.message);
+      const errorMessage = error.message;
+      throw new Error(`Error al obtener productos: ${errorMessage}`);
     }
     throw new Error("Error al obtener productos");
   }
 };
 
-const getAllWithPagination = async (options) => {
+const getAllWithPagination = async (
+  options: PaginationOptions
+): Promise<PaginatedResult> => {
   const {
     limit = 10,
     page = 1,
@@ -41,8 +51,7 @@ const getAllWithPagination = async (options) => {
   } = options;
 
   try {
-    let q = productCollection;
-    const constraints = [];
+    const constraints: QueryConstraint[] = [];
 
     if (filters.category) {
       constraints.push(where("category", "==", filters.category));
@@ -74,7 +83,7 @@ const getAllWithPagination = async (options) => {
       constraints.push(where("name", "<=", searchTerm + "\uf8ff"));
     }
 
-    constraints.push(orderBy(sortBy, order));
+    constraints.push(orderBy(sortBy, order as "asc" | "desc"));
 
     if (startAfter) {
       const startDoc = await getDoc(doc(db, "productos", startAfter));
@@ -85,11 +94,10 @@ const getAllWithPagination = async (options) => {
 
     constraints.push(firestoreLimit(limit + 1));
 
-    q = query(productCollection, ...constraints);
+    const q = query(productCollection, ...constraints);
     const snapshot = await getDocs(q);
 
-    let totalQuery = productCollection;
-    const countConstraints = [];
+    const countConstraints: QueryConstraint[] = [];
 
     if (filters.category) {
       countConstraints.push(where("category", "==", filters.category));
@@ -110,30 +118,26 @@ const getAllWithPagination = async (options) => {
       countConstraints.push(where("rating", ">=", filters.minRating));
     }
 
-    if (countConstraints.length > 0) {
-      totalQuery = query(productCollection, ...countConstraints);
-    }
+    const totalQuery =
+      countConstraints.length > 0
+        ? query(productCollection, ...countConstraints)
+        : productCollection;
 
     const totalSnapshot = await getCountFromServer(totalQuery);
     const total = totalSnapshot.data().count;
 
-    const products = [];
+    const products: Product[] = [];
     const hasNext = snapshot.docs.length > limit;
 
     snapshot.docs.slice(0, limit).forEach((doc) => {
       products.push({
         id: doc.id,
         ...doc.data(),
-      });
+      } as Product);
     });
 
     let filteredProducts = products;
-    if (
-      filters.search &&
-      !constraints.some(
-        (c) => c.type === "where" && c.field.segments.includes("name")
-      )
-    ) {
+    if (filters.search) {
       const searchLower = filters.search.toLowerCase();
       filteredProducts = products.filter(
         (p) =>
@@ -145,7 +149,7 @@ const getAllWithPagination = async (options) => {
     const nextCursor =
       hasNext && filteredProducts.length > 0
         ? filteredProducts[filteredProducts.length - 1].id
-        : null;
+        : undefined;
 
     return {
       products: filteredProducts,
@@ -153,11 +157,14 @@ const getAllWithPagination = async (options) => {
       hasNext,
       nextCursor,
     };
-  } catch (error) {
-    console.error("Error en getAllWithPagination:", error);
-    throw new Error(
-      `Error al obtener productos con paginación: ${error.message}`
-    );
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const errorMessage = error.message;
+      throw new Error(
+        `Error al obtener productos con paginación: ${errorMessage}`
+      );
+    }
+    throw new Error(`Error al obtener productos con paginación`);
   }
 };
 
@@ -169,8 +176,12 @@ const getProductById = async (id: string) => {
     if (!productDoc.exists()) return null;
 
     return { id: productDoc.id, ...productDoc.data() };
-  } catch (error) {
-    throw new Error(`Error al obtener el producto: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const errorMessage = error.message;
+      throw new Error(`Error al obtener el producto: ${errorMessage}`);
+    }
+    throw new Error(`Error al obtener el producto`);
   }
 };
 
@@ -179,8 +190,12 @@ const createProduct = async (product: Product) => {
     const newProduct = await addDoc(productCollection, product);
 
     return newProduct;
-  } catch (error) {
-    throw new Error("Error", error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const errorMessage = error.message;
+      throw new Error(`Error al crear producto: ${errorMessage}`);
+    }
+    throw new Error("Error al crear producto");
   }
 };
 
@@ -196,8 +211,12 @@ const deleteProduct = async (id: string) => {
     await deleteDoc(product);
 
     return { message: `Producto con ID '${id}' eliminado correctamente.` };
-  } catch (error) {
-    throw new Error(`Error al eliminar el producto: ${error.message}`);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const errorMessage = error.message;
+      throw new Error(`Error al eliminar el producto: ${errorMessage}`);
+    }
+    throw new Error(`Error al eliminar el producto`);
   }
 };
 
