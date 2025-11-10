@@ -7,3 +7,5 @@ export type {
 } from "./product.types.ts";
 
 export type { PaginationOptions, PaginatedResult } from "./pagination.types.ts";
+
+export type { User } from "./user.types.ts";
