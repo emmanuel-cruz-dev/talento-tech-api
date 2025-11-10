@@ -5,6 +5,8 @@ import validateUser from "../services/auth.service.ts";
 
 config();
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 const login = async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body;
@@ -12,23 +14,29 @@ const login = async (req: Request, res: Response) => {
     if (!username || !password) {
       return res
         .status(400)
-        .json({ error: "Username y password son requeridos" });
+        .json({ error: "Username and password are required" });
     }
 
     const userValid = await validateUser(username, password);
 
     if (!userValid) {
-      return res.status(401).json({ error: "Credenciales inválidas" });
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ username }, process.env.JWT_SECRET, {
+    if (!JWT_SECRET) {
+      return res.status(500).json({
+        error: "JWT_SECRET is not defined in the environment variables",
+      });
+    }
+
+    const token = jwt.sign({ username }, JWT_SECRET, {
       expiresIn: "1h",
     });
 
     res.json({ token });
   } catch (error) {
     console.log("Error al loguearse:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
