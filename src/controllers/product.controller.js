@@ -2,8 +2,56 @@ import productService from "../services/product.service.js";
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = await productService.getAll();
-    res.status(200).json({ message: "Lista de productos", payload: products });
+    const {
+      limit = 10,
+      page = 1,
+      sortBy = "createdAt",
+      order = "desc",
+      search,
+      category,
+      minPrice,
+      maxPrice,
+      brand,
+      isActive,
+      minRating,
+      startAfter,
+    } = req.query;
+
+    const parsedLimit = Math.min(parseInt(limit) || 10, 100);
+    const parsedPage = parseInt(page) || 1;
+
+    const options = {
+      limit: parsedLimit,
+      page: parsedPage,
+      sortBy,
+      order: order.toLowerCase(),
+      filters: {},
+    };
+
+    if (search) options.filters.search = search;
+    if (category) options.filters.category = category;
+    if (brand) options.filters.brand = brand;
+    if (minPrice) options.filters.minPrice = parseFloat(minPrice);
+    if (maxPrice) options.filters.maxPrice = parseFloat(maxPrice);
+    if (minRating) options.filters.minRating = parseFloat(minRating);
+    if (isActive !== undefined) options.filters.isActive = isActive === "true";
+    if (startAfter) options.startAfter = startAfter;
+
+    const result = await productService.getAllWithPagination(options);
+
+    res.status(200).json({
+      message: "Lista de productos",
+      payload: result.products,
+      pagination: {
+        total: result.total,
+        page: parsedPage,
+        limit: parsedLimit,
+        totalPages: Math.ceil(result.total / parsedLimit),
+        hasNext: result.hasNext,
+        hasPrev: parsedPage > 1,
+        nextCursor: result.nextCursor,
+      },
+    });
   } catch (error) {
     res.status(error?.status || 500).json({
       message: "Error al obtener los productos",
