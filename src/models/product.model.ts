@@ -12,13 +12,13 @@ import {
   getCountFromServer,
   QueryConstraint,
 } from "firebase/firestore";
-import { db, productCollection } from "../config/firebase.config.ts";
-import { dbAdmin } from "../config/firebase.ts";
+import { db, productCollection } from "../config/firebase.config";
+import { dbAdmin } from "../config/firebase";
 import type {
   Product,
   PaginationOptions,
   PaginatedResult,
-} from "../types/index.ts";
+} from "../types/index";
 
 const getAll = async (): Promise<Product[]> => {
   try {

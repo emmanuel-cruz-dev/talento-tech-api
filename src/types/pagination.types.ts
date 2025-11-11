@@ -1,4 +1,4 @@
-import type { Product, ProductFilters } from "./product.types.ts";
+import type { Product, ProductFilters } from "./product.types";
 
 export interface PaginationOptions {
   limit: number;
