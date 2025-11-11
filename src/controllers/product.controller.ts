@@ -1,12 +1,12 @@
 import type { Request, Response } from "express";
-import productService from "../services/product.service.ts";
+import productService from "../services/product.service";
 import type {
   Product,
   PaginationOptions,
   ProductQueryParams,
   PaginatedResult,
   CreateProductData,
-} from "../types/index.ts";
+} from "../types/index";
 
 const getAllProducts = async (
   req: Request<{}, {}, {}, ProductQueryParams>,

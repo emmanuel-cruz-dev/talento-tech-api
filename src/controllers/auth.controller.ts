@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { config } from "dotenv";
 import jwt from "jsonwebtoken";
-import validateUser from "../services/auth.service.ts";
+import validateUser from "../services/auth.service";
 
 config();
 
