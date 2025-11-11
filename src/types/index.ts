@@ -4,10 +4,10 @@ export type {
   ProductQueryParams,
   ProductFilters,
   CreateProductData,
-} from "./product.types.ts";
+} from "./product.types.js";
 
-export type { PaginationOptions, PaginatedResult } from "./pagination.types.ts";
+export type { PaginationOptions, PaginatedResult } from "./pagination.types.js";
 
-export type { User } from "./user.types.ts";
+export type { User } from "./user.types.js";
 
-export type { ValidationMiddleware } from "./validation.types.ts";
+export type { ValidationMiddleware } from "./validation.types.js";

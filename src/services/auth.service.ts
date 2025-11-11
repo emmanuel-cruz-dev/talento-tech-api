@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { users } from "../models/user.model";
+import { users } from "../models/user.model.js";
 
 const validateUser = async (username: string, password: string) => {
   try {

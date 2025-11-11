@@ -1,10 +1,10 @@
 import { Router } from "express";
-import productController from "../controllers/product.controller";
-import authenticateToken from "../middlewares/auth.middleware";
+import productController from "../controllers/product.controller.js";
+import authenticateToken from "../middlewares/auth.middleware.js";
 import {
   validateProductQuery,
   validatePriceRange,
-} from "../middlewares/validateQuery.middleware";
+} from "../middlewares/validateQuery.middleware.js";
 
 const router = Router();
 

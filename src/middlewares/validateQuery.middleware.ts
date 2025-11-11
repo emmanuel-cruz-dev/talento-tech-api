@@ -1,6 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 import { query, validationResult } from "express-validator";
-import type { ProductQueryParams, ValidationMiddleware } from "../types/index";
+import type {
+  ProductQueryParams,
+  ValidationMiddleware,
+} from "../types/index.js";
 
 export const validateProductQuery: ValidationMiddleware[] = [
   query("limit")

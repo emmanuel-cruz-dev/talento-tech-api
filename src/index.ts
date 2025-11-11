@@ -6,8 +6,8 @@ import dotenv from "dotenv";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "node:path";
-import productRoutes from "./routes/product.routes";
-import authRoutes from "./routes/auth.routes";
+import productRoutes from "./routes/product.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 
 dotenv.config();
 
@@ -18,19 +18,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static(join(__dirname, "views")));
 app.get("/", (req: Request, res: Response) => {
-  try {
-    const htmlPath = join(__dirname, "views", "home.html");
-    const htmlContent = readFileSync(htmlPath, "utf8");
-    res.send(htmlContent);
-  } catch (error) {
-    console.error("Error cargando HTML:", error);
-    res.status(500).json({ error: "Error cargando página" });
-  }
+  res.sendFile(join(__dirname, "./views", "home.html"));
 });
 
 app.use("/api/products", productRoutes);
