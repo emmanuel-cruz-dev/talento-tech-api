@@ -3,7 +3,6 @@ import type { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import { readFileSync } from "node:fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "node:path";
 import productRoutes from "./routes/product.routes.js";
@@ -22,6 +21,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(join(__dirname, "views")));
+
 app.get("/", (req: Request, res: Response) => {
   res.sendFile(join(__dirname, "./views", "home.html"));
 });
@@ -44,8 +44,10 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server listening on port http://localhost:${PORT}`);
-});
+if (process.env.VERCEL !== "1") {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server listening on port http://localhost:${PORT}`);
+  });
+}
 
 export default app;
