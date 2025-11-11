@@ -1,10 +1,10 @@
-import productModel from "../models/product.model.ts";
+import productModel from "../models/product.model";
 import type {
   Product,
   PaginationOptions,
   PaginatedResult,
   CreateProductData,
-} from "../types/index.ts";
+} from "../types/index";
 
 const getAll = async (): Promise<Product[]> => {
   return await productModel.getAll();
