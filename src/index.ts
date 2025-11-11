@@ -3,15 +3,11 @@ import type { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import { fileURLToPath } from "url";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import productRoutes from "./routes/product.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 
 dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,10 +16,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(join(__dirname, "views")));
-
+app.use(express.static(join(process.cwd(), "public")));
 app.get("/", (req: Request, res: Response) => {
-  res.sendFile(join(__dirname, "./views", "home.html"));
+  res.sendFile(join(process.cwd(), "public", "home.html"));
 });
 
 app.use("/api/products", productRoutes);
