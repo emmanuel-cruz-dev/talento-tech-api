@@ -3,9 +3,5 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "framework": null,
-  "functions": {
-    "api/index.js": {
-      "runtime": "nodejs22"
-    }
-  }
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index.js" }]
 }
