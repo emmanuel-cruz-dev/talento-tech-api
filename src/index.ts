@@ -6,22 +6,19 @@ import dotenv from "dotenv";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "node:path";
-import productRoutes from "./routes/product.routes.ts";
-import authRoutes from "./routes/auth.routes.ts";
+import productRoutes from "./routes/product.routes";
+import authRoutes from "./routes/auth.routes";
 
 dotenv.config();
 
-// Get __dirname on ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Security Middlewares
 app.use(cors());
 
-// JSON Parsing
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -36,11 +33,9 @@ app.get("/", (req: Request, res: Response) => {
   }
 });
 
-// Routes
 app.use("/api/products", productRoutes);
 app.use("/auth", authRoutes);
 
-// Handling routes not found (404)
 app.use((req: Request, res: Response) => {
   res.status(404).json({
     error: "Ruta no encontrada",
@@ -48,7 +43,6 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-// Middleware for general error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.status(500).json({
