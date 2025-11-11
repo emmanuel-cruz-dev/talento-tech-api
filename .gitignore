@@ -1,7 +1,7 @@
-# Dependencias
+# Dependencies
 node_modules/
 
-# Variables de entorno
+# Environment variables
 .env
 
 # Logs
@@ -9,11 +9,11 @@ logs
 *.log
 npm-debug.log*
 
-# Runtime data
 pids
 *.pid
 *.seed
 *.pid.lock
+api.http
 
 # Coverage directory used by tools like istanbul
 coverage/
