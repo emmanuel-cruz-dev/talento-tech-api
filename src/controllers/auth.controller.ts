@@ -1,9 +1,6 @@
 import type { Request, Response } from "express";
-import { config } from "dotenv";
 import jwt from "jsonwebtoken";
 import validateUser from "../services/auth.service.js";
-
-config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
