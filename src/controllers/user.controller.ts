@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
-import userModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import userModel from "../models/user.model.js";
 import { UserRole, type UpdateUserData } from "../types/user.types.js";
 
 const SALT_ROUNDS = 10;
