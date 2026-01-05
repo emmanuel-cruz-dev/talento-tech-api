@@ -5,19 +5,41 @@ import {
   validateProductQuery,
   validatePriceRange,
 } from "../middlewares/validateQuery.middleware.js";
+import { requireStoreOrAdmin } from "../middlewares/authorization.middleware.js";
 
 const router = Router();
 
-router
-  .get(
-    "/",
-    validateProductQuery,
-    validatePriceRange,
-    productController.getAllProducts
-  )
-  .get("/:id", productController.getProductById)
-  .post("/create", authenticateToken, productController.createProduct)
-  .delete("/:id", authenticateToken, productController.deleteProduct)
-  .post("/bulk", authenticateToken, productController.createManyProducts);
+router.get(
+  "/",
+  validateProductQuery,
+  validatePriceRange,
+  productController.getAllProducts
+);
+router.get("/:id", productController.getProductById);
+
+router.post(
+  "/create",
+  authenticateToken,
+  requireStoreOrAdmin,
+  productController.createProduct
+);
+router.post(
+  "/bulk",
+  authenticateToken,
+  requireStoreOrAdmin,
+  productController.createManyProducts
+);
+router.put(
+  "/:id",
+  authenticateToken,
+  requireStoreOrAdmin,
+  productController.updateProduct
+);
+router.delete(
+  "/:id",
+  authenticateToken,
+  requireStoreOrAdmin,
+  productController.deleteProduct
+);
 
 export default router;
