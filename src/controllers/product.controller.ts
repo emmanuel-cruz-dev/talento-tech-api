@@ -7,6 +7,7 @@ import type {
   PaginatedResult,
   CreateProductData,
 } from "../types/index.js";
+import { UserRole } from "../types/user.types.js";
 
 const getAllProducts = async (
   req: Request<{}, {}, {}, ProductQueryParams>,
@@ -129,6 +130,14 @@ const createProduct = async (
       });
     }
 
+    const ownerId = req.user?.id;
+
+    if (!ownerId) {
+      return res
+        .status(401)
+        .json({ error: "No se pudo identificar la tienda" });
+    }
+
     const newProduct: CreateProductData = {
       name,
       description: description || "",
@@ -139,6 +148,7 @@ const createProduct = async (
       rating: rating !== undefined ? +rating : 0,
       brand: brand || "Sin marca",
       isActive: isActive !== undefined ? Boolean(isActive) : true,
+      ownerId,
       createdAt: new Date().toISOString(),
     };
 
@@ -151,6 +161,48 @@ const createProduct = async (
   } catch (error: any) {
     console.error(error);
     res.status(500).json({ error: "Error al crear producto" });
+  }
+};
+
+const updateProduct = async (
+  req: Request<{ id: string }, Partial<Product>>,
+  res: Response
+): Promise<Response | void> => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({
+      message: "Se requiere el ID del producto",
+      payload: { error: "ID no proporcionado" },
+    });
+  }
+
+  try {
+    const existingProduct = await productService.getProductById(id);
+
+    if (!existingProduct) {
+      return res.status(404).json({
+        error: `Producto con ID '${id}' no encontrado`,
+      });
+    }
+
+    if (
+      existingProduct.ownerId !== req.user?.id &&
+      req.user?.role !== UserRole.ADMIN
+    ) {
+      return res.status(403).json({
+        error: "No tienes permisos para actualizar este producto",
+      });
+    }
+
+    const updatedProduct = await productService.updateProduct(id, req.body);
+
+    res.json({ status: "OK", payload: updatedProduct });
+  } catch (error: any) {
+    res.status(error?.status || 500).json({
+      status: "FAILED",
+      payload: { error: error?.message || "Error al actualizar el producto" },
+    });
   }
 };
 
@@ -252,6 +304,7 @@ export default {
   getAllProducts,
   getProductById,
   createProduct,
+  updateProduct,
   deleteProduct,
   createManyProducts,
 };
