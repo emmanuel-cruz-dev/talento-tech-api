@@ -16,9 +16,7 @@ const getAllWithPagination = async (
   return await productModel.getAllWithPagination(options);
 };
 
-const getProductById = async (
-  productId: string
-): Promise<{ id: string } | null> => {
+const getProductById = async (productId: string): Promise<Product | null> => {
   return await productModel.getProductById(productId);
 };
 
@@ -26,6 +24,13 @@ const createProduct = async (
   product: CreateProductData
 ): Promise<{ id: string }> => {
   return await productModel.createProduct(product);
+};
+
+const updateProduct = async (
+  productId: string,
+  productData: Partial<Product>
+): Promise<{ id: string }> => {
+  return await productModel.updateProduct(productId, productData);
 };
 
 const deleteProduct = async (
@@ -44,6 +49,7 @@ export default {
   getAll,
   getAllWithPagination,
   getProductById,
+  updateProduct,
   createProduct,
   deleteProduct,
   createManyProducts,
