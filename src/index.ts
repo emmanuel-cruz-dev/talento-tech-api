@@ -10,3 +10,5 @@ if (process.env.VERCEL !== "1") {
     console.log(`🚀 Server listening on port http://localhost:${PORT}`);
   });
 }
+
+export default app;
