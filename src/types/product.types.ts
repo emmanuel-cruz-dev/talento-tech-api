@@ -10,6 +10,9 @@ export interface Product {
   brand: string;
   isActive: boolean;
   createdAt: string;
+  updatedAt?: string;
+  ownerId?: string;
+  ownerName?: string;
 }
 
 export interface ProductWithPagination extends Product {
@@ -29,6 +32,7 @@ export interface ProductQueryParams {
   isActive?: string;
   minRating?: string;
   startAfter?: string;
+  ownerId?: string;
 }
 
 export interface ProductFilters {
@@ -39,8 +43,10 @@ export interface ProductFilters {
   maxPrice?: number;
   minRating?: number;
   isActive?: boolean;
+  ownerId?: string;
 }
 
 export type CreateProductData = Omit<Product, "id" | "createdAt"> & {
   createdAt: string;
+  ownerId?: string;
 };
