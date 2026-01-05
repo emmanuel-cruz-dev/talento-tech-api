@@ -8,6 +8,17 @@ export type {
 
 export type { PaginationOptions, PaginatedResult } from "./pagination.types.js";
 
-export type { User } from "./user.types.js";
+export type {
+  UserRole,
+  User,
+  StoreInfo,
+  UserProfile,
+  Address,
+  CreateUserData,
+  UpdateUserData,
+  LoginCredentials,
+  AuthResponse,
+  JWTPayload,
+} from "./user.types.js";
 
 export type { ValidationMiddleware } from "./validation.types.js";

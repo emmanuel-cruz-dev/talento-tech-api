@@ -13,6 +13,7 @@ pids
 *.pid
 *.seed
 *.pid.lock
+dist/
 api.http
 
 # Coverage directory used by tools like istanbul
