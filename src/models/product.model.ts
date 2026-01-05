@@ -3,6 +3,7 @@ import {
   getDoc,
   getDocs,
   addDoc,
+  updateDoc,
   deleteDoc,
   query,
   where,
@@ -168,14 +169,14 @@ const getAllWithPagination = async (
   }
 };
 
-const getProductById = async (id: string) => {
+const getProductById = async (id: string): Promise<Product | null> => {
   try {
     const product = doc(db, "productos", id);
     const productDoc = await getDoc(product);
 
     if (!productDoc.exists()) return null;
 
-    return { id: productDoc.id, ...productDoc.data() };
+    return { id: productDoc.id, ...productDoc.data() } as Product;
   } catch (error: unknown) {
     if (error instanceof Error) {
       const errorMessage = error.message;
@@ -196,6 +197,33 @@ const createProduct = async (product: Product) => {
       throw new Error(`Error al crear producto: ${errorMessage}`);
     }
     throw new Error("Error al crear producto");
+  }
+};
+
+const updateProduct = async (
+  id: string,
+  productData: Partial<Product>
+): Promise<{ id: string }> => {
+  try {
+    const product = doc(db, "productos", id);
+    const productDoc = await getDoc(product);
+
+    if (!productDoc.exists()) {
+      throw new Error(`No se encontró el producto con ID '${id}'`);
+    }
+
+    await updateDoc(product, {
+      ...productData,
+      updatedAt: new Date().toISOString(),
+    });
+
+    return { id: productDoc.id };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const errorMessage = error.message;
+      throw new Error(`Error al actualizar producto: ${errorMessage}`);
+    }
+    throw new Error("Error al actualizar producto");
   }
 };
 
@@ -237,6 +265,7 @@ export default {
   getAll,
   getAllWithPagination,
   getProductById,
+  updateProduct,
   createProduct,
   deleteProduct,
   createManyProducts,
