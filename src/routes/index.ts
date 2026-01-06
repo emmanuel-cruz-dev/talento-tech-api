@@ -22,17 +22,13 @@ router.get("/docs/swagger.json", (req, res) => {
 
 const swaggerUiOptions = {
   explorer: true,
-  customCss: ".swagger-ui .topbar { display: none }",
   customSiteTitle: "Talento Tech API Docs",
-  customCssUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui.min.css",
-  customJs: [
-    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-bundle.min.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-standalone-preset.min.js",
-  ],
+  swaggerOptions: {
+    url: "/api/v1/docs/swagger.json",
+  },
 };
 
 router.use("/docs", swaggerUi.serve);
-router.get("/docs", swaggerUi.setup(swaggerSpec, swaggerUiOptions));
+router.get("/docs", swaggerUi.setup(null, swaggerUiOptions));
 
 export default router;
