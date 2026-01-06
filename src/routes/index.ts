@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Router } from "express";
 import swaggerUi from "swagger-ui-express";
 import productRoutes from "./product.routes.js";
 import authRoutes from "./auth.routes.js";
@@ -15,15 +15,24 @@ router.use("/products", productRoutes);
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 
-router.use(
-  "/docs",
-  swaggerUi.serve,
-  (req: Request, res: Response, next: NextFunction) => {
-    swaggerUi.setup(swaggerSpec, {
-      explorer: true,
-      customSiteTitle: "Talento Tech API Docs",
-    })(req, res, next);
-  }
-);
+router.get("/docs/swagger.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
+
+const swaggerUiOptions = {
+  explorer: true,
+  customCss: ".swagger-ui .topbar { display: none }",
+  customSiteTitle: "Talento Tech API Docs",
+  customCssUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui.min.css",
+  customJs: [
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-bundle.min.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-standalone-preset.min.js",
+  ],
+};
+
+router.use("/docs", swaggerUi.serve);
+router.get("/docs", swaggerUi.setup(swaggerSpec, swaggerUiOptions));
 
 export default router;
