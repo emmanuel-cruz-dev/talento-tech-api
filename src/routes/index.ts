@@ -4,11 +4,6 @@ import productRoutes from "./product.routes.js";
 import authRoutes from "./auth.routes.js";
 import userRoutes from "./user.routes.js";
 import { swaggerSpec } from "../docs/swagger.js";
-import { OpenAPIV3 } from "openapi-types";
-
-export interface SwaggerSpec extends OpenAPIV3.Document {
-  servers?: OpenAPIV3.ServerObject[];
-}
 
 const router = Router();
 
@@ -24,36 +19,32 @@ router.use(
   "/docs",
   swaggerUi.serve,
   (req: Request, res: Response, next: NextFunction) => {
+    const specForSetup = JSON.parse(JSON.stringify(swaggerSpec));
+
     const isProduction = process.env.NODE_ENV === "production";
-    const options = {
+    const serverUrl = isProduction
+      ? "https://talento-tech-api.vercel.app/api/v1"
+      : `http://${req.headers.host}/api/v1`;
+
+    specForSetup.servers = [
+      {
+        url: serverUrl,
+        description: isProduction ? "Producción" : "Desarrollo",
+      },
+    ];
+
+    const swaggerUiHandler = swaggerUi.setup(specForSetup, {
       explorer: true,
       customSiteTitle: "Talento Tech API Docs",
       swaggerOptions: {
         persistAuthorization: true,
         displayRequestDuration: true,
         tryItOutEnabled: true,
-        urls: isProduction
-          ? [
-              {
-                url: "/api/v1/docs/swagger.json",
-                name: "Producción",
-              },
-            ]
-          : undefined,
       },
       customCss: ".swagger-ui .topbar { display: none }",
-    };
+    });
 
-    if (!isProduction) {
-      swaggerSpec.servers = [
-        {
-          url: "http://localhost:3000/api/v1",
-          description: "Local",
-        },
-      ];
-    }
-
-    return swaggerUi.setup(swaggerSpec, options)(req, res, next);
+    return swaggerUiHandler(req, res, next);
   }
 );
 
