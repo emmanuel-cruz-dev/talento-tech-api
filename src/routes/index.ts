@@ -15,6 +15,23 @@ router.use("/products", productRoutes);
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 
-router.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const options = {
+  explorer: true,
+  customSiteTitle: "Talento Tech API Docs",
+  swaggerOptions: {
+    url: "/api/v1/docs/swagger.json",
+  },
+};
+
+router.use(
+  "/docs",
+  swaggerUi.serveFiles(swaggerSpec, options),
+  swaggerUi.setup(swaggerSpec, options)
+);
+
+router.get("/docs/swagger.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
 
 export default router;
