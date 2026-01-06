@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "installCommand": "npm install",
   "builds": [
     {
       "src": "src/index.ts",
@@ -11,12 +9,12 @@
   "routes": [
     {
       "src": "/api/v1/docs/(.*)",
-      "dest": "/src/index.ts"
+      "dest": "src/index.ts",
+      "continue": true
     },
     {
       "src": "/(.*)",
-      "dest": "/src/index.ts"
+      "dest": "src/index.ts"
     }
-  ],
-  "outputDirectory": "dist"
+  ]
 }

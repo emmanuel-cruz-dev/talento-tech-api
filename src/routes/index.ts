@@ -6,6 +6,12 @@ import userRoutes from "./user.routes.js";
 import { swaggerSpec } from "../docs/swagger.js";
 
 const router = Router();
+const CSS_URL =
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css";
+const JS_URLS = [
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.js",
+];
 
 router.get("/health", (req, res) => {
   res.json({ status: "ok" });
@@ -21,6 +27,8 @@ router.use(
   swaggerUi.setup(swaggerSpec, {
     explorer: true,
     customSiteTitle: "Talento Tech API Docs",
+    customCssUrl: CSS_URL,
+    customJs: JS_URLS,
     swaggerOptions: {
       persistAuthorization: true,
     },
