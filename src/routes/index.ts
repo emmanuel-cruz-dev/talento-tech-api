@@ -21,6 +21,9 @@ router.use(
   swaggerUi.setup(swaggerSpec, {
     explorer: true,
     customSiteTitle: "Talento Tech API Docs",
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
   })
 );
 

@@ -10,7 +10,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(join(process.cwd(), "public")));
 
 app.get("/", (req: Request, res: Response) => {
   res.sendFile(join(process.cwd(), "public", "home.html"));
