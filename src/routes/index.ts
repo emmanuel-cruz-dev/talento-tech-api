@@ -6,10 +6,11 @@ import userRoutes from "./user.routes.js";
 import { swaggerSpec } from "../docs/swagger.js";
 
 const router = Router();
-const CSS_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css";
+const CSS_URL =
+  "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.11.0/swagger-ui.css";
 const JS_URLS = [
-  "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js",
-  "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-standalone-preset.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-bundle.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.11.0/swagger-ui-standalone-preset.js",
 ];
 
 router.get("/health", (req, res) => {
