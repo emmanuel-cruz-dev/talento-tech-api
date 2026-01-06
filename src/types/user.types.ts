@@ -42,11 +42,13 @@ export interface Address {
   country?: string;
 }
 
+export type PublicUserRole = UserRole.USER | UserRole.STORE;
+
 export interface CreateUserData {
   email: string;
   password: string;
   username: string;
-  role: UserRole;
+  role: PublicUserRole;
   storeInfo?: StoreInfo;
   profile?: UserProfile;
 }
