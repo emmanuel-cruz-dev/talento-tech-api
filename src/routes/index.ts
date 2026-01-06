@@ -15,13 +15,13 @@ router.use("/products", productRoutes);
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 
-const swaggerUiHandler = swaggerUi.setup(swaggerSpec, {
-  explorer: true,
-  customSiteTitle: "Talento Tech API Docs",
-  customCss: ".swagger-ui .topbar { display: none }",
-});
-
-router.use("/docs", swaggerUi.serveFiles(swaggerSpec, {}));
-router.get("/docs", swaggerUiHandler);
+router.use(
+  "/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    explorer: true,
+    customSiteTitle: "Talento Tech API Docs",
+  })
+);
 
 export default router;
