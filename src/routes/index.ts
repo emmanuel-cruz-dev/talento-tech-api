@@ -30,6 +30,7 @@ router.use(
     customJs: JS_URLS,
     swaggerOptions: {
       persistAuthorization: true,
+      displayRequestDuration: true,
     },
   })
 );
