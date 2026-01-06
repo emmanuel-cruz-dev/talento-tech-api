@@ -18,14 +18,12 @@ router.use("/users", userRoutes);
 const options = {
   explorer: true,
   customSiteTitle: "Talento Tech API Docs",
-  swaggerOptions: {
-    url: "/api/v1/docs/swagger.json",
-  },
+  customCss: '.swagger-ui .topbar { display: none }',
 };
 
 router.use(
   "/docs",
-  swaggerUi.serveFiles(swaggerSpec, options),
+  swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, options)
 );
 

@@ -11,11 +11,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/api/v1", apiv1Routes);
+
 app.get("/", (req: Request, res: Response) => {
   res.sendFile(join(process.cwd(), "public", "home.html"));
 });
-
-app.use("/api/v1", apiv1Routes);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({
