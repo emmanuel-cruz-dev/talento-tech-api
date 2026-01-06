@@ -1,5 +1,5 @@
 import { Router } from "express";
-import swaggerUi from "swagger-ui-express";
+import { join } from "node:path";
 import productRoutes from "./product.routes.js";
 import authRoutes from "./auth.routes.js";
 import userRoutes from "./user.routes.js";
@@ -15,17 +15,10 @@ router.use("/products", productRoutes);
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 
-const options = {
-  explorer: true,
-  customSiteTitle: "Talento Tech API Docs",
-  customCss: '.swagger-ui .topbar { display: none }',
-};
-
-router.use(
-  "/docs",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, options)
-);
+// Servir la documentación de Swagger desde HTML personalizado
+router.get("/docs", (req, res) => {
+  res.sendFile(join(process.cwd(), "public", "swagger.html"));
+});
 
 router.get("/docs/swagger.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
