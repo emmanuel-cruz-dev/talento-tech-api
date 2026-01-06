@@ -35,6 +35,13 @@ const register = async (req: Request, res: Response) => {
       });
     }
 
+    if (role === UserRole.ADMIN) {
+      return res.status(400).json({
+        error: "Acceso denegado",
+        message: "No puedes registrar un administrador",
+      });
+    }
+
     const userData: CreateUserData = {
       email,
       password,

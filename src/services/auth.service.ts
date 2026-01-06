@@ -21,6 +21,7 @@ const register = async (userData: CreateUserData): Promise<AuthResponse> => {
     const existingUsername = await userModel.getUserByUsername(
       userData.username
     );
+
     if (existingUsername) {
       throw new Error("El username ya está en uso");
     }
