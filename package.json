@@ -4,6 +4,7 @@
   "description": "REST API for product management",
   "main": "index.js",
   "scripts": {
+    "prebuild": "tsx scripts/generate-swagger.ts",
     "build": "tsc && tsc-alias",
     "start": "node dist/index.js",
     "dev": "tsx watch src/index.ts",

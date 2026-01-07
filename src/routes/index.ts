@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { join } from "node:path";
+import { readFileSync } from "node:fs";
 import productRoutes from "./product.routes.js";
 import authRoutes from "./auth.routes.js";
 import userRoutes from "./user.routes.js";
-import { swaggerSpec } from "../docs/swagger.js";
 
 const router = Router();
 
@@ -20,8 +20,9 @@ router.get("/docs", (req, res) => {
 });
 
 router.get("/docs/swagger.json", (req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  res.json(swaggerSpec);
+  const specPath = join(process.cwd(), "public", "swagger-spec.json");
+  const spec = JSON.parse(readFileSync(specPath, "utf-8"));
+  res.json(spec);
 });
 
 export default router;
