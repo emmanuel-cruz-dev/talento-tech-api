@@ -15,14 +15,13 @@ router.use("/products", productRoutes);
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 
-// Servir la documentación de Swagger desde HTML personalizado
 router.get("/docs", (req, res) => {
   res.sendFile(join(process.cwd(), "public", "swagger.html"));
 });
 
 router.get("/docs/swagger.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
-  res.send(swaggerSpec);
+  res.json(swaggerSpec);
 });
 
 export default router;

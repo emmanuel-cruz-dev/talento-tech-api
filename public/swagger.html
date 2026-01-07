@@ -26,29 +26,39 @@
 <body>
   <div id="swagger-ui"></div>
 
-  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js"></script>
-  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js" charset="UTF-8"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js" charset="UTF-8"></script>
   <script>
-    window.onload = function() {
-      // Determinar la URL base según el entorno
-      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      const baseUrl = isLocalhost
-        ? 'http://localhost:3000/api/v1'
-        : window.location.origin + '/api/v1';
+    window.onload = async function() {
+      try {
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const baseUrl = isLocalhost
+          ? 'http://localhost:3000/api/v1'
+          : window.location.origin + '/api/v1';
 
-      window.ui = SwaggerUIBundle({
-        url: baseUrl + "/docs/swagger.json",
-        dom_id: '#swagger-ui',
-        deepLinking: true,
-        presets: [
-          SwaggerUIBundle.presets.apis,
-          SwaggerUIStandalonePreset
-        ],
-        plugins: [
-          SwaggerUIBundle.plugins.DownloadUrl
-        ],
-        layout: "StandaloneLayout"
-      });
+        const response = await fetch(baseUrl + "/docs/swagger.json");
+        const spec = await response.json();
+
+        window.ui = SwaggerUIBundle({
+          spec: spec,
+          dom_id: '#swagger-ui',
+          deepLinking: true,
+          presets: [
+            SwaggerUIBundle.presets.apis,
+            SwaggerUIStandalonePreset
+          ],
+          plugins: [
+            SwaggerUIBundle.plugins.DownloadUrl
+          ],
+          layout: "StandaloneLayout",
+          defaultModelsExpandDepth: 1,
+          defaultModelExpandDepth: 1
+        });
+      } catch (error) {
+        console.error('Error loading Swagger spec:', error);
+        document.getElementById('swagger-ui').innerHTML =
+          '<div style="padding: 20px; color: red;">Error loading API documentation. Please check console for details.</div>';
+      }
     };
   </script>
 </body>
