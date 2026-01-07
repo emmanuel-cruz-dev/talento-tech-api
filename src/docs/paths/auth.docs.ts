@@ -34,13 +34,6 @@
  *                   storeName: "My Awesome Store"
  *                   description: "We sell quality products"
  *                   logo: "https://example.com/logo.png"
- *             admin:
- *               summary: Registrar admin (requiere permisos)
- *               value:
- *                 email: "admin@example.com"
- *                 password: "password123"
- *                 username: "admin"
- *                 role: "admin"
  *     responses:
  *       201:
  *         description: Usuario registrado exitosamente
