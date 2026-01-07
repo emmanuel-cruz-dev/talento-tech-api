@@ -1,4 +1,9 @@
 import swaggerJSDoc from "swagger-jsdoc";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const swaggerDefinition = {
   openapi: "3.0.0",
@@ -99,13 +104,10 @@ const swaggerDefinition = {
 const options = {
   swaggerDefinition,
   apis: [
-    "./src/docs/**/*.ts",
-    "./dist/docs/**/*.js",
-    "./docs/**/*.js",
-    "./src/routes/**/*.ts",
-    "./dist/routes/**/*.js",
-    "src/**/*.ts",
-    "dist/**/*.js",
+    join(__dirname, "paths", "*.ts"),
+    join(__dirname, "paths", "*.js"),
+    join(__dirname, "schemas", "*.ts"),
+    join(__dirname, "schemas", "*.js"),
   ],
 };
 
