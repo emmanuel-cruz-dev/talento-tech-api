@@ -8,9 +8,9 @@
 
 API RESTful completa para gestión de productos y usuarios con autenticación JWT.
 
-🔐 Sistema de autenticación con roles (USER, STORE, ADMIN)
-☁️ Base de datos NoSQL en **Firebase Firestore**
-📚 Documentación interactiva con **Swagger UI**
+🔐 Sistema de autenticación con roles (USER, STORE, ADMIN)  
+☁️ Base de datos NoSQL en **Firebase Firestore**  
+📚 Documentación interactiva con **Swagger UI**  
 🚀 Desplegada en **Vercel**
 
 ### Características principales:
@@ -25,7 +25,7 @@ API RESTful completa para gestión de productos y usuarios con autenticación JW
 
 ## 🔗 **Demo en Vivo**
 
-🌐 **API Base URL:** https://talento-tech-api.vercel.app/api/v1
+🌐 **API Base URL:** https://talento-tech-api.vercel.app  
 📚 **Documentación Swagger:** https://talento-tech-api.vercel.app/api/v1/docs
 
 ⚠️ **Importante:** Puedes probar todos los endpoints directamente desde Swagger UI o usando Postman/cURL.
