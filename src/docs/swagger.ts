@@ -101,13 +101,15 @@ const swaggerDefinition = {
   ],
 };
 
+const srcDocsPath = join(__dirname, "..", "..", "src", "docs");
+
 const options = {
   swaggerDefinition,
   apis: [
+    join(srcDocsPath, "paths", "*.ts"),
+    join(srcDocsPath, "schemas", "*.ts"),
     join(__dirname, "paths", "*.ts"),
-    join(__dirname, "paths", "*.js"),
     join(__dirname, "schemas", "*.ts"),
-    join(__dirname, "schemas", "*.js"),
   ],
 };
 
