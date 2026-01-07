@@ -120,7 +120,7 @@ Documentación Swagger: `http://localhost:3000/api/v1/docs`
 
 La forma más fácil de explorar y probar la API es usando Swagger UI:
 
-🔗 **Local:** http://localhost:3000/api/v1/docs
+🔗 **Local:** http://localhost:3000/api/v1/docs  
 🔗 **Producción:** https://talento-tech-api.vercel.app/api/v1/docs
 
 Desde Swagger puedes:
